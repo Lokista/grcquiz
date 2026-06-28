@@ -6,6 +6,7 @@ import {
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
 import { Card, SectionHeader, ProgressBar, TopicIcon, Pill } from './ui.jsx';
+import InstallBanner from './InstallBanner.jsx';
 import * as Sel from '../state/selectors.js';
 import { isMuted, setMuted, sfx } from '../utils/juice.js';
 
@@ -62,6 +63,8 @@ export default function QuestMap() {
           </div>
         </div>
       </Card>
+
+      <InstallBanner />
 
       {/* DAILY + CAMPAIGN PROGRESS */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">

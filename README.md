@@ -52,6 +52,19 @@ npm run lint
 
 Wymaga Node 18+. Brak backendu — cały postęp zapisuje się w `localStorage` przeglądarki.
 
+## Telefon — pobierz / zainstaluj
+
+Szczegóły w **[POBIERZ.md](./POBIERZ.md)**.
+
+| Sposób | Link |
+|--------|------|
+| **Gra w przeglądarce (PWA)** | https://lokista.github.io/grcquiz/ → Dodaj do ekranu głównego |
+| **Plik ZIP (offline)** | https://github.com/Lokista/grcquiz/releases/latest/download/grcquiz-web.zip |
+
+```bash
+npm run package   # buduje dist + release/grcquiz-web.zip
+```
+
 ## Stack
 
 Vite + React 18 + Tailwind CSS + lucide-react + canvas-confetti. Bez backendu (MVP), deploy jako strona statyczna.

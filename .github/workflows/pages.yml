@@ -1,0 +1,73 @@
+name: Deploy Pages and release ZIP
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build:pages
+        env:
+          GITHUB_PAGES: 'true'
+
+      - run: npm run zip
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grcquiz-web
+          path: release/grcquiz-web.zip
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/deploy-pages@v4
+        id: deployment
+
+  release-asset:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: grcquiz-web
+          path: release
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          tag_name: mobile-${{ github.run_number }}
+          name: GRC Quiz — build ${{ github.run_number }} (telefon)
+          body: |
+            Paczka do pobrania na telefon (offline) + instrukcja w ZIP.
+
+            **Lepsza opcja:** https://lokista.github.io/grcquiz/ → Dodaj do ekranu głównego.
+          files: release/grcquiz-web.zip
+          make_latest: true
+          generate_release_notes: false
