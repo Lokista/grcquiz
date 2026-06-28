@@ -1,0 +1,285 @@
+import { L } from '../shape.js';
+
+// Podstawy audytu i ryzyka.
+export const BASICS_LESSONS = [
+  L({
+    id: 'what-is-it-audit',
+    topicKey: 'basics',
+    title: 'Czym jest IT Audit',
+    minutes: 6,
+    definition: `IT Audit to niezależna, obiektywna ocena tego, czy systemy i procesy IT realizują cele biznesowe, chronią dane i spełniają wymagania. Audytor nie szuka winnych — szuka dowodów, że kontrole działają (lub nie). Wynikiem jest raport z ustaleniami i rekomendacjami.`,
+    example: `Audyt ITGC w banku: audytor sprawdza, czy dostęp do systemu core banking jest nadawany z zatwierdzeniem, czy zmiany w kodzie przechodzą przez approval i testy, oraz czy backup był testowany pod kątem odtworzenia. Nie weryfikuje kodu linia po linii — ocenia procesy i dowody.`,
+    interviewAnswer: `IT Audit to obiektywna ocena systemów informatycznych pod kątem bezpieczeństwa, dostępności, integralności i zgodności. Sprawdzamy, czy kontrole IT działają tak, jak powinny, i czy wspierają cele biznesowe oraz wymagania regulacyjne. Wynikiem jest raport z ustaleniami i rekomendacjami.`,
+    commonMistakes: [
+      'Mówienie, że audytor "szuka błędów developerów" — oceniamy kontrole, nie kod linia po linii.',
+      'Myślenie, że audyt = penetracja/hacking (to osobna dziedzina: pentest).',
+      'Skupienie na narzędziach zamiast na dowodach i procesach.',
+      'Zapominanie o zgodności i celach biznesowych — audyt nie jest tylko o bezpieczeństwie.',
+    ],
+    quiz: {
+      question: 'Czego przede wszystkim szuka audytor IT w teście kontroli?',
+      options: ['Dowodów, że kontrola działa skutecznie', 'Błędów w kodzie linia po linii', 'Imion osób do winy', 'Najtańszego narzędzia GRC'],
+      correct: 0,
+      explain: 'Audytor ocenia skuteczność kontroli na podstawie dowodów (design + operating effectiveness), a nie czyta całego kodu.',
+    },
+  }),
+
+  L({
+    id: 'auditor-mindset',
+    topicKey: 'basics',
+    title: 'Jak myśli audytor',
+    minutes: 6,
+    definition: `Audytor myśli dowodowo: "nie zgaduję, widzę artefakt". Najpierw rozumie proces i ryzyko, potem ocenia, czy kontrola jest dobrze zaprojektowana (design effectiveness) i czy rzeczywiście działa w okresie (operating effectiveness). Każde ustalenie opiera się na kryterium, dowodzie i ocenie istotności.`,
+    example: `Klient mówi: "Mamy MFA wszędzie." Audytor nie notuje "OK". Prosi o raport MFA z ostatniego miesiąca, próbkę 15 kont i sprawdza, czy 100% miało MFA. Jeśli 3 konta nie miały — ustalenie: kontrola istnieje w polityce, ale operating effectiveness częściowa.`,
+    interviewAnswer: `Audytor myśli dowodowo: najpierw rozumiem proces i ryzyko, potem oceniam design effectiveness (czy kontrola jest dobrze zaprojektowana) i operating effectiveness (czy faktycznie działa w okresie). Nie ufam deklaracjom — proszę o artefakty: raporty, tickety, logi, próbki. Każde ustalenie opieram na kryterium i dowodzie.`,
+    commonMistakes: [
+      'Branie deklaracji klienta za dowód ("mamy politykę" ≠ kontrola działa).',
+      'Skakanie do testów bez zrozumienia procesu i ryzyka.',
+      'Mieszanie design effectiveness z operating effectiveness.',
+      'Ustalenia bez kryterium ("to jest źle" — względem czego?).',
+    ],
+    quiz: {
+      question: 'Klient mówi, że kontrola działa. Co robi audytor?',
+      options: ['Zapisuje "OK" i przechodzi dalej', 'Prosi o dowód i testuje operating effectiveness na próbce', 'Od razu pisze ustalenie negatywne', 'Wymusza wdrożenie nowego narzędzia'],
+      correct: 1,
+      explain: 'Deklaracja to nie dowód. Audytor prosi o artefakt i testuje, czy kontrola działała w okresie (operating effectiveness).',
+    },
+  }),
+
+  L({
+    id: 'what-is-control',
+    topicKey: 'basics',
+    title: 'Czym jest kontrola',
+    minutes: 6,
+    definition: `Kontrola to środek redukujący ryzyko do akceptowalnego poziomu. Może być zapobiegawcza (prevents — np. MFA), detekcyjna (detects — np. logi, alert SIEM) lub korygująca (corrects — np. procedura incydentowa, restore z backupu). Może być techniczna, organizacyjna lub fizyczna.`,
+    example: `Dla ryzyka "nieautoryzowany dostęp do VPN": kontrola preventive = MFA; detective = logi logowań + alert o nietypowej lokalizacji; corrective = procedura blokady konta i dochodzenia. Silny zestaw ma warstwy z obu typów.`,
+    interviewAnswer: `Kontrola to środek redukujący ryzyko do akceptowalnego poziomu. Dzielą się na zapobiegawcze (prevents — MFA, segregacja sieci), detekcyjne (wykrywają — logi, SIEM, przeglądy) i korygujące (reagują — procedura IR, restore). Mogą być techniczne, organizacyjne lub fizyczne. Dobra obrona w głębi łączy warstwy.`,
+    commonMistakes: [
+      'Samo preventive bez detective = nie dowiemy się o incydencie.',
+      'Traktowanie polityki jako kontroli — polityka to intencja, kontrola to realizacja z dowodem.',
+      'Brak control ownera ("odpowiada IT").',
+      'Brak testów skuteczności — "wdrożyliśmy" ≠ "działa".',
+    ],
+    quiz: {
+      question: 'Jaką funkcję pełni alert SIEM o logowaniu z nowej lokalizacji?',
+      options: ['Preventive', 'Detective', 'Corrective', 'Fizyczna'],
+      correct: 1,
+      explain: 'Alert wykrywa zdarzenie po fakcie — to kontrola detekcyjna. MFA zapobiegałaby, a procedura IR korygowałaby.',
+    },
+  }),
+
+  L({
+    id: 'evidence',
+    topicKey: 'basics',
+    title: 'Czym jest evidence / dowód audytowy',
+    minutes: 6,
+    definition: `Dowód audytowy to artefakt potwierdzający, że kontrola działała w okresie objętym audytem. Dobry dowód ma: kontekst (jaka kontrola, jaki okres), datę, autora/zatwierdzającego i powiązanie (traceability do wymagania/ryzyka). Bez dowodu kontrola "nie istnieje" dla audytora.`,
+    example: `Kontrola "kwartalny przegląd dostępu": silny dowód = raport z IAM (847 kont, 12 wyjątków), lista podpisów managerów, tickety revoku, notatka z Risk Committee. Słaby dowód = screenshot listy userów bez daty i zatwierdzenia.`,
+    interviewAnswer: `Dowód audytowy to weryfikowalny artefakt potwierdzający, że kontrola działała w okresie. Oczekuję kompletności (kontekst + data), wiarygodności (imienny autor/zatwierdzenie) i istotności (powiązanie z kryterium). "Mamy politykę" to nie dowód — proszę o raporty, tickety, próbki. Bez dowodu zgłaszam ustalenie o braku skuteczności.`,
+    commonMistakes: [
+      'Screenshot bez daty i kontekstu jako jedyny dowód.',
+      'Self-attestation bez niezależnej weryfikacji.',
+      'Dowody przeterminowane (access review sprzed 18 mies.).',
+      'Brak traceability — audytor nie znajduje powiązania kontrola ↔ ryzyko ↔ wymaganie.',
+    ],
+    quiz: {
+      question: 'Który dowód jest najsilniejszy dla kontroli przeglądu dostępu?',
+      options: ['Screenshot listy userów bez daty', 'Raport IAM + podpisy managerów + tickety revoku', 'Deklaracja ustna CISO', 'Diagram architektury'],
+      correct: 1,
+      explain: 'Silny dowód ma kontekst, datę, imienne zatwierdzenie i pokazuje działanie (revoki). Screenshot bez metadanych jest najsłabszy.',
+    },
+  }),
+
+  L({
+    id: 'risk-threat-vulnerability',
+    topicKey: 'basics',
+    title: 'Risk, threat, vulnerability',
+    minutes: 7,
+    definition: `Threat (zagrożenie) — potencjalne działanie lub zdarzenie, które może wyrządzić szkodę (np. hacker, ransomware, pożar). Vulnerability (podatność) — słabość, którą zagrożenie może wykorzystać (np. brak MFA, niezałatany system). Risk (ryzyko) — możliwość, że zagrożenie wykorzysta podatność i wpłynie negatywnie na cele; funkcja prawdopodobieństwa i wpływu.`,
+    example: `Threat: ransomware. Vulnerability: brak MFA na VPN + brak backupu offline. Risk: utrata poufnego dostępu i danych → przestój i wyciek. Relacja: Risk = Threat × Vulnerability × Impact (koncepcyjnie).`,
+    interviewAnswer: `Threat to zagrożenie, które może wyrządzić szkodę (np. atakujący, malware). Vulnerability to podatność — słabość dająca zagrożeniu przyczółek (brak MFA, łatany system). Risk to możliwość, że zagrożenie wykorzysta podatność i negatywnie wpłynie na cele biznesowe; oceniam je przez prawdopodobieństwo i wpływ. Kontrole redukują podatności i/lub wpływ, więc obniżają ryzyko.`,
+    commonMistakes: [
+      'Mieszanie threat i risk ("ryzyko to hacker" — nie, to zagrożenie).',
+      'Traktowanie podatności jako ryzyka bez oceny wpływu.',
+      'Zapominanie, że bez kontroli podatność pozostaje — ryzyko inherentne; po kontrolach — residualne.',
+      'Lista zagrożeń bez powiązania z aktywami i podatnościami.',
+    ],
+    quiz: {
+      question: 'Brak MFA na VPN to przede wszystkim:',
+      options: ['Threat', 'Vulnerability', 'Risk', 'Control'],
+      correct: 1,
+      explain: 'Brak MFA to słabość dająca zagrożeniu (np. przejęcie konta) przyczółek — czyli podatność. Ryzyko to dopiero konsekwencja z prawdopodobieństwem i wpływem.',
+    },
+  }),
+
+  L({
+    id: 'asset',
+    topicKey: 'basics',
+    title: 'Asset (aktywo)',
+    minutes: 5,
+    definition: `Aktywo to coś, co ma wartość dla organizacji i wymaga ochrony: dane, systemy, urządzenia, osoby, usługi, reputacja. Identyfikacja aktywów jest punktem startowym risk assessmentu — bez wiedzy co chronimy, nie ocenimy ryzyka ani nie zaprojektujemy kontroli.`,
+    example: `Aktywo: baza danych klientów w CRM. Atrybuty do ochrony (CIA): Confidentiality (RODO), Integrity (poprawne salda), Availability (SLA 99.9%). Właściciel aktywa: Head of Sales. Klasyfikacja: poufne.`,
+    interviewAnswer: `Aktywo to element o wartości wymagający ochrony — dane, system, urządzenie, usługa, a także reputacja czy ludzie. Identyfikacja aktywów i ich klasyfikacja (np. poufne/wewnętrzne/publiczne) to start risk assessmentu. Dla każdego aktywa określam właściciela i wymagania CIA — co przede wszystkim chronić.`,
+    commonMistakes: [
+      'Brak inwentaryzacji aktywów (nie wiadomo, co chronić).',
+      'Brak właściciela aktywa ("należy do IT").',
+      'Brak klasyfikacji — wszystkie dane traktowane tak samo.',
+      'Pomijanie aktywów niematerialnych (reputacja, know-how).',
+    ],
+    quiz: {
+      question: 'Co jest punktem startowym risk assessmentu?',
+      options: ['Wybór narzędzia GRC', 'Identyfikacja i klasyfikacja aktywów', 'Zakup polisy ubezpieczeniowej', 'Napisanie polityki haseł'],
+      correct: 1,
+      explain: 'Bez wiedzy, co chronimy i jakiej klasy, nie ocenimy ryzyka ani nie zaprojektujemy proporcjonalnych kontroli.',
+    },
+  }),
+
+  L({
+    id: 'likelihood',
+    topicKey: 'basics',
+    title: 'Likelihood (prawdopodobieństwo)',
+    minutes: 5,
+    definition: `Likelihood to szansa, że scenariusz ryzyka zmaterializuje się w danym okresie. Skala zwykle 1–5, z opisami: np. 1 = rzadko (< raz na 5 lat), 3 = możliwe (raz na 1–2 lata), 5 = bardzo prawdopodobne (> raz na kwartał). Ocena powinna opierać się na danych (incydenty, trendy), nie tylko intuicji.`,
+    example: `Ryzyko phishingu: likelihood 4 (wysokie) — organizacja 500 osób, co kwartał kampania phishingowa, część klika. Ryzyko pożaru serwerowni: likelihood 1 — zabezpieczenia fizyczne, systemy gaśnicze.`,
+    interviewAnswer: `Likelihood to prawdopodobieństwo materializacji scenariusza ryzyka, oceniane na skali (zwykle 1–5) z opisami częstości. Opieram je na danych historycznych, trendach i istniejących kontrolach. Im lepsze kontrole detekcyjne/preventive, tym niższe prawdopodobieństwo rezydualne.`,
+    commonMistakes: [
+      'Subiektywne "wydaje mi się" bez opisu skali i danych.',
+      'Brak uwzględnienia kontroli — likelihood inherentne vs residualne.',
+      'Ta sama skala dla wszystkich ryzyk bez kalibracji.',
+    ],
+    quiz: {
+      question: 'Likelihood oceniamy najlepiej na podstawie:',
+      options: ['Intuicji audytora', 'Danych historycznych, trendów i kontroli', 'Ilości stron polityki', 'Wielkości biura'],
+      correct: 1,
+      explain: 'Prawdopodobieństwo powinno być uzasadnione danymi (incydenty, trendy) i uwzględniać istniejące kontrole, a nie być "czuciem".',
+    },
+  }),
+
+  L({
+    id: 'impact',
+    topicKey: 'basics',
+    title: 'Impact (wpływ)',
+    minutes: 5,
+    definition: `Impact to skutki dla organizacji, gdy ryzyko się zmaterializuje: finansowe (kary, utrata przychodu), operacyjne (przestój), reputacyjne, prawne/regulacyjne, bezpieczeństwa danych. Skala zwykle 1–5. Wpływ określamy względem celów biznesowych i apetytu na ryzyko.`,
+    example: `Wyciek bazy klientów: impact 5 — kary RODO do 4% obrotu, zgłoszenie UODO, utrata zaufania, możliwe procesy. Przestój nieważnej aplikacji 2h: impact 2 — niewielkie koszty, brak regulacji.`,
+    interviewAnswer: `Impact to wielkość skutków materializacji ryzyka — finansowe, operacyjne, reputacyjne, prawne. Oceniam na skali 1–5 względem celów biznesowych i apetytu na ryzyko zarządu. Wyciek danych osobowych = wysoki wpływ (kary RODO, reputacja), przestój małego systemu = niski.`,
+    commonMistakes: [
+      'Liczenie tylko kosztów IT, pomijanie kar regulacyjnych i reputacji.',
+      'Brak odniesienia do apetytu na ryzyko.',
+      'Mieszanie wpływu na proces vs wpływu na całą organizację.',
+    ],
+    quiz: {
+      question: 'Wyciek danych osobowych klientów ma przede wszystkim wysoki:',
+      options: ['Impact', 'Likelihood', 'Vulnerability', 'Control rating'],
+      correct: 0,
+      explain: 'Skutki (kary RODO do 4% obrotu, zgłoszenie UODO, reputacja) to wysoki wpływ — impact.',
+    },
+  }),
+
+  L({
+    id: 'risk-score',
+    topicKey: 'basics',
+    title: 'Risk score',
+    minutes: 5,
+    definition: `Risk score = Likelihood × Impact (skala np. 1–5 × 1–5 = 1–25). Wynik mapujemy na poziomy: niski / średni / wysoki / krytyczny. Matryca ryzyka (heatmapa 5×5) wizualizuje strefy. Score porządkuje ryzyka i napędza plan treatmentu.`,
+    example: `Phishing: L=4, I=4 → score 16 (wysokie). Pożar serwerowni: L=1, I=5 → score 5 (niski/średni). MFA + szkolenia obniżają phishing do L=2, I=4 → 8 (średnie).`,
+    interviewAnswer: `Risk score to iloczyn prawdopodobieństwa i wpływu, zwykle na skali 1–5, dający 1–25. Mapuję wynik na poziomy (niski/średni/wysoki/krytyczny) w matrycy 5×5. Score porządkuje ryzyka i wskazuje, które wymagają natychmiastowego treatmentu. Pamiętam, że score inherentny liczymy przed kontrolami, residualny — po.`,
+    commonMistakes: [
+      'Dodawanie L+I zamiast mnożenia ( Gorsze rozróżnienie skrajnych).',
+      'Brak mapy kolorów — liczba bez kontekstu poziomu.',
+      'Mieszanie score inherentnego i residualnego w jednym rejestrze.',
+    ],
+    quiz: {
+      question: 'Ryzyko L=4, I=4 na skali 1–5 ma score:',
+      options: ['8', '16', '4', '20'],
+      correct: 1,
+      explain: 'Risk score = L × I = 4 × 4 = 16 (wysokie w matrycy 5×5).',
+    },
+  }),
+
+  L({
+    id: 'residual-risk',
+    topicKey: 'basics',
+    title: 'Residual risk (ryzyko rezydualne)',
+    minutes: 6,
+    definition: `Ryzyko inherentne to ekspozycja bez kontroli. Ryzyko residualne to to, które zostaje PO wdrożeniu kontroli. Nigdy nie jest zerowe — kontrole nie są perfekcyjne. Jeśli residualne > apetyt na ryzyko, potrzebne dodatkowe działania lub formalna akceptacja (risk acceptance) przez governance.`,
+    example: `Ryzyko wycieku przez phishing: inherentne 16. Po MFA, szkoleniach, filtrach e-mail: residualne 8. Jeśli apetyt = 6, residualne 8 > apetyt → plan dodatkowy (DMARC, symulacje) lub akceptacja zarządu.`,
+    interviewAnswer: `Ryzyko inherentne to ekspozycja bez kontroli. Residualne to pozostałe po wdrożeniu kontroli — nigdy nie jest zerowe, bo kontrole mają ograniczenia. Porównuję residualne z apetytem na ryzyko: jeśli jest wyższe, proponuję dodatkowe kontrole lub formalną akceptację zarządu z kompensacją i terminem.`,
+    commonMistakes: [
+      'Założenie, że po kontroli ryzyko = 0.',
+      'Brak porównania residualnego z apetytem na ryzyko.',
+      'Akceptacja ryzyka bez formalnej decyzji governance i terminu.',
+    ],
+    quiz: {
+      question: 'Residual risk to:',
+      options: ['Ryzyko bez kontroli', 'Ryzyko po wdrożeniu kontroli', 'Kara regulacyjna', 'Apetyt na ryzyko'],
+      correct: 1,
+      explain: 'Residual to pozostałe ryzyko po kontrolach. Inherentne jest przed kontrolami. Residualne porównujemy z apetytem.',
+    },
+  }),
+
+  L({
+    id: 'risk-treatment',
+    topicKey: 'basics',
+    title: 'Risk treatment',
+    minutes: 6,
+    definition: `Risk treatment to decyzja, co zrobić z ryzykiem. Cztery opcje: Mitigate (zmniejsz — wdróż kontrole), Transfer (przenieś — ubezpieczenie, outsourcing z umową), Avoid (uniknij — zrezygnuj z działania), Accept (zaakceptuj — świadoma decyzja governance, gdy residual ≤ apetyt lub uzasadnienie biznesowe).`,
+    example: `Ryzyko wycieku przez dostawcę chmury: mitigate (audyt dostawcy, DPA, szyfrowanie) + transfer (ubezpieczenie cyber). Ryzyko używania przestarzałego systemu bez wsparcia: avoid (migracja) lub accept (izolacja sieci + akceptacja CTO na 90 dni).`,
+    interviewAnswer: `Risk treatment ma cztery ścieżki: mitigate (kontrole obniżające L/I), transfer (ubezpieczenie, umowa z dostawcą z SLA/DPA), avoid (rezygnacja z ryzykownego działania) i accept (świadoma akceptacja governance, gdy residual mieści się w apetycie lub jest uzasadnienie z kompensacją i terminem). Wybór dokumentuję z właścicielem ryzyka.`,
+    commonMistakes: [
+      'Accept bez formalnej akceptacji governance i terminu.',
+      'Transfer traktowany jako "problem z głowy" (umowa nie eliminuje ryzyka reputacji).',
+      'Brak właściciela decyzji o treatmentu.',
+      'Mitigate bez weryfikacji, czy kontrola faktycznie obniżyła residual.',
+    ],
+    quiz: {
+      question: 'Wykupienie ubezpieczenia cyber to primarily:',
+      options: ['Mitigate', 'Transfer', 'Avoid', 'Accept'],
+      correct: 1,
+      explain: 'Ubezpieczenie przenosi część skutków finansowych na ubezpieczyciela — to transfer. Nie eliminuje ryzyka reputacji ani regulacyjnego.',
+    },
+  }),
+
+  L({
+    id: 'cia-triad',
+    topicKey: 'basics',
+    title: 'CIA Triad',
+    minutes: 5,
+    definition: `CIA to trzy fundamenty bezpieczeństwa informacji: Confidentiality (poufność — dostęp tylko uprawnionych), Integrity (integralność — poprawność i brak nieautoryzowanych zmian), Availability (dostępność — system działa, gdy potrzebny). Każda kontrola wspiera jeden lub więcej z tych celów.`,
+    example: `Szyfrowanie dysku → Confidentiality. Sumy kontrolne / podpisy → Integrity. Backup + clustering → Availability. MFA wspiera Confidentiality i Integrity (ogranicza nieautoryzowany dostęp i zmiany).`,
+    interviewAnswer: `CIA Triad to poufność, integralność i dostępność. Poufność — dane widzą tylko uprawnieni (szyfrowanie, RBAC). Integralność — dane są poprawne i niezmienione nieautoryzowanie (sumy kontrolne, workflow akceptacji). Dostępność — system działa, gdy potrzebny (backup, DR, clustering). Projektując kontrolę, mówię, który cel wspiera.`,
+    commonMistakes: [
+      'Skupienie tylko na Confidentiality (zapominanie o Availability w audycie backupu).',
+      'Brak mapowania kontroli na cele CIA w SoA.',
+      'Myślenie, że backup = Integrity (to głównie Availability, a szyfrowanie backupu = Confidentiality).',
+    ],
+    quiz: {
+      question: 'Test odtworzenia z backupu wspiera głównie:',
+      options: ['Confidentiality', 'Integrity', 'Availability', 'None'],
+      correct: 2,
+      explain: 'Backup i jego testowanie zapewniają, że dane i system są dostępne po awarii — to Availability.',
+    },
+  }),
+
+  L({
+    id: 'audit-finding',
+    topicKey: 'basics',
+    title: 'Finding i control deficiency',
+    minutes: 6,
+    definition: `Finding (ustalenie) to udokumentowana luka wykryta w ocenie. Zawiera: kryterium (wymóg), warunek (stan faktyczny), przyczynę, skutek/ryzyko i rekomendację. Control deficiency to brak lub nieskuteczność kontroli; dzielimy na minor (ograniczona) i major (systemowa). Każde ustalenie ma właściciela remediacji i termin.`,
+    example: `Finding: "Kryterium — polityka wymaga MFA na VPN. Warunek — 3 z 15 kont w próbce nie miało MFA. Przyczyna — wyjątki bez przeglądu. Skutek — ryzyko przejęcia konta. Rekomendacja — wdrożyć MFA dla 100% i cykliczny przegląd wyjątków. Właściciel: Head of IT, termin 30 dni."`,
+    interviewAnswer: `Finding to udokumentowane ustalenie z kryterium, warunkiem, przyczyną, skutkiem i rekomendacją. Control deficiency to brak lub nieskuteczność kontroli — minor gdy ograniczona, major gdy systemowa. Każde ustalenie ma właściciela remediacji i termin; zamykam je dowodem skuteczności, nie deklaracją.`,
+    commonMistakes: [
+      'Ustalenie bez kryterium ("to jest źle" — względem czego?).',
+      'Rekomendacja bez właściciela i terminu.',
+      'Zamykanie ustalenia deklaracją zamiast dowodem.',
+      'Brak oceny istotności (minor/major).',
+    ],
+    quiz: {
+      question: 'Co jest BRAKEM w poprawnym opisie ustalenia?',
+      options: ['Kryterium (wymóg)', 'Warunek (stan faktyczny)', 'Rekomendacja bez właściciela i terminu', 'Skutek/ryzyko'],
+      correct: 2,
+      explain: 'Rekomendacja bez właściciela i terminu nie jest zamykalna. Poprawne ustalenie ma kryterium, warunek, przyczynę, skutek, rekomendację z ownerem i deadlinem.',
+    },
+  }),
+];
