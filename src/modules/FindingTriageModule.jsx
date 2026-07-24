@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 import {
-  Inbox, ArrowLeft, CheckCircle2, XCircle, RotateCcw, ChevronRight, Lightbulb,
+  Inbox, ArrowLeft, RotateCcw, ChevronRight, Lightbulb,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
