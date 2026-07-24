@@ -33,6 +33,8 @@ const SamplingDrillModule = lazy(() => import('./modules/SamplingDrillModule.jsx
 const ProcessTimelineModule = lazy(() => import('./modules/ProcessTimelineModule.jsx'));
 const InterviewDayPlanModule = lazy(() => import('./modules/InterviewDayPlanModule.jsx'));
 const WeakTopicTrainerModule = lazy(() => import('./modules/WeakTopicTrainerModule.jsx'));
+const FindingTriageModule = lazy(() => import('./modules/FindingTriageModule.jsx'));
+const PolicyPracticeModule = lazy(() => import('./modules/PolicyPracticeModule.jsx'));
 
 function RouteFallback() {
   return (
@@ -75,6 +77,8 @@ function Router() {
     case 'timeline': page = <ProcessTimelineModule />; break;
     case 'dayplan': page = <InterviewDayPlanModule />; break;
     case 'weak': page = <WeakTopicTrainerModule />; break;
+    case 'triage': page = <FindingTriageModule />; break;
+    case 'policy': page = <PolicyPracticeModule />; break;
     case 'quest':
     default: page = <QuestMap />; break;
   }

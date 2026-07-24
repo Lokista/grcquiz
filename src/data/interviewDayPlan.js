@@ -5,18 +5,18 @@
 
 /** Preferowane tryby per topicKey (kolejność = preferencja) */
 export const WEAK_DRILL_MAP = {
+  controls: [
+    { view: 'controlmap', label: 'Control mapping', minutes: 10 },
+    { view: 'policy', label: 'Policy vs practice', minutes: 8 },
+    { view: 'triage', label: 'Finding triage', minutes: 10 },
+    { view: 'sod', label: 'SoD conflicts', minutes: 8 },
+    { view: 'evidence', label: 'Evidence walkthrough', minutes: 12 },
+  ],
   basics: [
+    { view: 'triage', label: 'Finding triage', minutes: 10 },
     { view: 'classify', label: 'Exception vs deficiency', minutes: 8 },
     { view: 'manager', label: 'Ton do managera', minutes: 8 },
     { view: 'severity', label: 'Severity calibrator', minutes: 8 },
-    { view: 'interview', label: 'Karty odpowiedzi', minutes: 10 },
-  ],
-  controls: [
-    { view: 'controlmap', label: 'Control mapping', minutes: 10 },
-    { view: 'sod', label: 'SoD conflicts', minutes: 8 },
-    { view: 'evidence', label: 'Evidence walkthrough', minutes: 12 },
-    { view: 'timeline', label: 'Process timeline', minutes: 10 },
-    { view: 'sampling', label: 'Sampling drill', minutes: 8 },
   ],
   identity: [
     { view: 'timeline', label: 'Process timeline (JOML)', minutes: 10 },
