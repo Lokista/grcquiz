@@ -141,6 +141,78 @@ export const FLASHCARDS = [
     example: 'Finding "brak MFA": remediacja — wdrożyć MFA dla 100% do 30 dni, owner Head of IT, weryfikacja raportem MFA.',
     interview: 'Remediation ma ownera, termin i test skuteczności; zamknięcie wymaga dowodu, nie deklaracji.',
   }),
+  F({
+    id: 'fc-process-owner', topicKey: 'basics', term: 'Process owner',
+    definition: 'Właściciel procesu biznesowego — odpowiada za przebieg end-to-end (kto inicjuje, zatwierdza, wykonuje, monitoruje).',
+    example: 'Offboarding: process owner często HR + IT/IAM; audytor ustala ownera przed request list.',
+    interview: 'Najpierw ustalam process/control owner — bez ownera nie wiem, od kogo brać polityki i evidence.',
+  }),
+  F({
+    id: 'fc-control-owner', topicKey: 'basics', term: 'Control owner',
+    definition: 'Właściciel kontroli — odpowiada za design i działanie konkretnej kontroli oraz evidence.',
+    example: 'Access review: control owner IAM Manager; Change approval: Change Manager.',
+    interview: 'Control owner ≠ „całe IT” — potrzebuję imiennej odpowiedzialności za kontrolę.',
+  }),
+  F({
+    id: 'fc-residual', topicKey: 'basics', term: 'Residual risk',
+    definition: 'Ryzyko pozostałe po uwzględnieniu istniejących kontroli — porównywane z apetytem; treatment: accept/mitigate/transfer/avoid.',
+    example: 'Po MFA+PAM residual przejęcia admina spada, ale nie do zera — monitoring i review zostają.',
+    interview: 'Residual oceniam po kontrolach; audytor rekomenduje, decyzję treatment dokumentuje risk owner.',
+  }),
+  F({
+    id: 'fc-rto-rpo', topicKey: 'controls', term: 'RTO / RPO',
+    definition: 'RTO = czas odtworzenia. RPO = akceptowalna utrata danych. Potwierdzasz je restore testem, nie samym „backup successful”.',
+    example: 'RTO 4h, RPO 1h — test restore musi zmierzyć, czy cele są realne.',
+    interview: 'Bez restore testu nie potwierdzam recoverability ani RTO/RPO.',
+  }),
+  F({
+    id: 'fc-four-eyes', topicKey: 'controls', term: 'Four eyes / 4-eyes',
+    definition: 'Zasada dwóch par oczu — krytyczna akcja wymaga niezależnej drugiej osoby (approval).',
+    example: 'ITAC workflow: użytkownik nie zatwierdza własnej płatności; Change: developer ≠ deployer.',
+    interview: '4-eyes to SoD w praktyce — redukcja fraudu i błędu.',
+  }),
+  F({
+    id: 'fc-request-list', topicKey: 'basics', term: 'Request list / PBC',
+    definition: 'Lista dowodów do dostarczenia przez klienta (Provided By Client): tickety, logi, eksporty, raporty, approvale.',
+    example: 'Leaver PBC: data HR, ticket, data disable, logi blokady.',
+    interview: 'Request list po walkthrough — bez niej nie zaczynam operating testów na ślepo.',
+  }),
+  F({
+    id: 'fc-compensating', topicKey: 'basics', term: 'Compensating control',
+    definition: 'Kontrola częściowo łagodząca lukę, gdy primary control nie działa w pełni — nie kasuje findingu, może obniżyć severity.',
+    example: 'Brak MFA: monitoring logowań + krótsza sesja jako kompensata do czasu wdrożenia MFA.',
+    interview: 'Przy medium/low często są compensating controls; high przy krytycznych systemach rzadziej wystarcza.',
+  }),
+  F({
+    id: 'fc-pim', topicKey: 'identity', term: 'PIM (Privileged Identity Management)',
+    definition: 'Just-in-time i time-bound privileged roles w Entra — zamiast stałych Global Admin.',
+    example: 'Admin aktywuje rolę na 2h z MFA i approvalem; po czasie revoke automatyczny.',
+    interview: 'W Entra pytam o PIM dla privileged, nie tylko „mamy MFA”.',
+  }),
+  F({
+    id: 'fc-dpa', topicKey: 'frameworks', term: 'DPA',
+    definition: 'Data Processing Agreement — umowa powierzenia przetwarzania danych osobowych z procesorem (vendor).',
+    example: 'SaaS kredytowy: DPA przed go-live + subprocessors + data location.',
+    interview: 'Vendor evidence: umowa, DPA, SOC2/ISO, SLA, access list, exit, right to audit.',
+  }),
+  F({
+    id: 'fc-legacy-auth', topicKey: 'identity', term: 'Legacy authentication',
+    definition: 'Stare protokoły logowania, które często omijają MFA / Conditional Access.',
+    example: 'Blokada legacy auth w Entra + monitoring nieudanych/udanych legacy sign-ins.',
+    interview: 'Red flag Entra: legacy auth włączony przy wyjątkach MFA.',
+  }),
+  F({
+    id: 'fc-rca', topicKey: 'controls', term: 'RCA (Root Cause Analysis)',
+    definition: 'Analiza przyczyny źródłowej incydentu — nie tylko „naprawiliśmy restartem”.',
+    example: 'Po P1 płatności: timeline, przyczyna, corrective + preventive, lessons learned.',
+    interview: 'Evidence Incident: ticket, RCA, lessons learned.',
+  }),
+  F({
+    id: 'fc-rpa', topicKey: 'controls', term: 'RPA / bot controls',
+    definition: 'Kontrole automatyzacji: owner bota, konto techniczne, uprawnienia, logi, monitoring błędów, change skryptu, exception handling.',
+    example: 'Bot księgowy z nadmiarowymi prawami bez logów = ryzyko masowych błędnych operacji.',
+    interview: 'Przy RPA pytam o ownera, least privilege konta tech, logi i CM skryptu.',
+  }),
 ];
 
 export const FLASHCARD_MAP = Object.fromEntries(FLASHCARDS.map((c) => [c.id, c]));

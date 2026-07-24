@@ -13,6 +13,15 @@ import FlashcardsModule from './modules/FlashcardsModule.jsx';
 import ThinkLikeAuditorModule from './modules/ThinkLikeAuditorModule.jsx';
 import EndlessQuizModule from './modules/EndlessQuizModule.jsx';
 import ProgressModule from './modules/ProgressModule.jsx';
+import MockInterviewModule from './modules/MockInterviewModule.jsx';
+import BlindFindingModule from './modules/BlindFindingModule.jsx';
+import RequestListModule from './modules/RequestListModule.jsx';
+import ExamModule from './modules/ExamModule.jsx';
+import ProWordsModule from './modules/ProWordsModule.jsx';
+import FrameworkPickerModule from './modules/FrameworkPickerModule.jsx';
+import SeverityCalibratorModule from './modules/SeverityCalibratorModule.jsx';
+import CheatSheetModule from './modules/CheatSheetModule.jsx';
+import SodFinderModule from './modules/SodFinderModule.jsx';
 
 function Router() {
   const { view } = useNav();
@@ -27,6 +36,15 @@ function Router() {
     case 'cases': return <CaseStudyModule />;
     case 'flashcards': return <FlashcardsModule />;
     case 'think': return <ThinkLikeAuditorModule />;
+    case 'mock': return <MockInterviewModule />;
+    case 'blind': return <BlindFindingModule />;
+    case 'requestlist': return <RequestListModule />;
+    case 'exam': return <ExamModule />;
+    case 'prowords': return <ProWordsModule />;
+    case 'frameworks': return <FrameworkPickerModule />;
+    case 'severity': return <SeverityCalibratorModule />;
+    case 'cheatsheet': return <CheatSheetModule />;
+    case 'sod': return <SodFinderModule />;
     case 'quest':
     default: return <QuestMap />;
   }

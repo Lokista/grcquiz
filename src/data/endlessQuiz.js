@@ -3,8 +3,10 @@ import { SCENARIOS } from './scenarios.js';
 import { CASE_STUDIES } from './caseStudies.js';
 import { FLASHCARDS } from './flashcards.js';
 import { getRichQuizExplain } from './quizRichExplains.js';
-
-const RECENT_AVOID = 12;
+import { ENDLESS_EXTRA_MCQ } from './endless/extraMcq.js';
+import { ENDLESS_ORDER_QUESTIONS } from './endless/orderQuestions.js';
+import { ENDLESS_BUCKET_QUESTIONS } from './endless/bucketQuestions.js';
+import { createEndlessSession, pickFromDeck, deckProgress, refillDeck } from './endless/deck.js';
 
 function shuffle(arr) {
   const a = [...arr];
@@ -21,8 +23,12 @@ function explainFromText(text) {
   return { why: text };
 }
 
+function asChoice(q) {
+  return { type: 'choice', ...q };
+}
+
 function lessonQuestions() {
-  return LESSONS.filter((l) => l.quiz).map((l) => ({
+  return LESSONS.filter((l) => l.quiz).map((l) => asChoice({
     id: l.id,
     topicKey: l.topicKey,
     title: l.title,
@@ -34,7 +40,7 @@ function lessonQuestions() {
 }
 
 function scenarioQuestions() {
-  return SCENARIOS.map((sc) => ({
+  return SCENARIOS.map((sc) => asChoice({
     id: `sc-${sc.id}`,
     topicKey: sc.topicKey,
     title: sc.title,
@@ -53,7 +59,7 @@ function caseSingleQuestions() {
   for (const cs of CASE_STUDIES) {
     for (const q of cs.questions) {
       if (q.type !== 'single') continue;
-      out.push({
+      out.push(asChoice({
         id: `${cs.id}-${q.id}`,
         topicKey: cs.topicKey,
         title: cs.title,
@@ -61,7 +67,7 @@ function caseSingleQuestions() {
         options: q.options,
         correct: q.correct,
         explain: explainFromText(q.explain),
-      });
+      }));
     }
   }
   return out;
@@ -72,7 +78,7 @@ function flashcardQuestions() {
     const others = FLASHCARDS.filter((c) => c.id !== card.id);
     const distractors = shuffle(others).slice(0, 3).map((c) => c.definition);
     const options = shuffle([card.definition, ...distractors]);
-    return {
+    return asChoice({
       id: `fc-${card.id}`,
       topicKey: card.topicKey,
       title: card.term,
@@ -84,27 +90,59 @@ function flashcardQuestions() {
         traps: card.example ? `Przykład: ${card.example}` : '',
         audit: card.interview ? `Na rozmowie: ${card.interview}` : '',
       },
-    };
+    });
   });
 }
 
-/** Pełna pula — lekcje, scenariusze, case (single), fiszki. Gra bez końca, z powtórkami. */
+function extraMcqQuestions() {
+  return ENDLESS_EXTRA_MCQ.map((q) => asChoice(q));
+}
+
+function orderQuestions() {
+  return ENDLESS_ORDER_QUESTIONS.map((q) => ({ ...q, type: 'order' }));
+}
+
+function bucketQuestions() {
+  return ENDLESS_BUCKET_QUESTIONS.map((q) => ({ ...q, type: 'bucket' }));
+}
+
+/** Pełna pula — ~180+ unikalnych pytań, talia bez powtórki do wyczerpania. */
 export const ENDLESS_POOL = [
   ...lessonQuestions(),
+  ...extraMcqQuestions(),
   ...scenarioQuestions(),
   ...caseSingleQuestions(),
   ...flashcardQuestions(),
+  ...orderQuestions(),
+  ...bucketQuestions(),
 ];
 
-export function pickQuestion(excludeId = null, recentIds = []) {
-  let pool = ENDLESS_POOL;
-  if (excludeId && pool.length > 1) {
-    pool = pool.filter((q) => q.id !== excludeId);
+export const ENDLESS_POOL_BY_ID = Object.fromEntries(ENDLESS_POOL.map((q) => [q.id, q]));
+
+export { createEndlessSession, deckProgress, refillDeck };
+
+export function initEndlessSession(session) {
+  refillDeck(session, ENDLESS_POOL.map((q) => q.id));
+}
+
+export function pickQuestion(session) {
+  if (!session.deck.length) {
+    initEndlessSession(session);
   }
-  const recent = new Set(recentIds.slice(-RECENT_AVOID));
-  const fresh = pool.filter((q) => !recent.has(q.id));
-  const pickFrom = fresh.length > 0 ? fresh : pool;
-  return pickFrom[Math.floor(Math.random() * pickFrom.length)];
+  return pickFromDeck(session, ENDLESS_POOL_BY_ID);
+}
+
+export function formatCorrectAnswer(q) {
+  if (q.type === 'order') {
+    return q.correctOrder.map((idx, i) => `${i + 1}. ${q.items[idx]}`).join(' → ');
+  }
+  if (q.type === 'bucket') {
+    return q.buckets.map((name, bi) => {
+      const items = q.items.filter((it) => it.bucket === bi).map((it) => it.text);
+      return `${name}: ${items.join('; ')}`;
+    }).join(' | ');
+  }
+  return q.options[q.correct];
 }
 
 export const ENDLESS_UNLIMITED = true;

@@ -2,7 +2,8 @@ import { useState } from 'react';
 import {
   Map as MapIcon, Target, Trophy, BarChart3, BookOpen, MessagesSquare,
   Briefcase, Layers, Brain, ShieldCheck, Menu, X, Flame, Star, Zap,
-  ChevronDown, Repeat,
+  ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
+  MessageCircle, Library, Gauge, ScrollText, Split,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -10,6 +11,8 @@ import * as Sel from '../state/selectors.js';
 
 const NAV_ITEMS = [
   { view: 'quest', label: 'Mapa misji', icon: MapIcon, primary: true },
+  { view: 'mock', label: 'Mock 45 min', icon: Mic2, primary: true },
+  { view: 'exam', label: 'Exam mode', icon: GraduationCap, primary: true },
   { view: 'endless', label: 'Endless Quiz', icon: Repeat, primary: true },
   { view: 'daily', label: 'Wyzwanie dnia', icon: Target, primary: true },
   { view: 'achievements', label: 'Osiągnięcia', icon: Trophy, primary: true },
@@ -19,6 +22,13 @@ const NAV_ITEMS = [
 const FREE_ITEMS = [
   { view: 'learn', label: 'Nauka', icon: BookOpen, desc: 'Lekcje + quiz' },
   { view: 'interview', label: 'Rozmowa rekrutacyjna', icon: MessagesSquare, desc: 'Karty odpowiedzi' },
+  { view: 'prowords', label: 'Pro-słowa', icon: MessageCircle, desc: 'Zdania na rozmowę' },
+  { view: 'frameworks', label: 'Framework picker', icon: Library, desc: 'ISO/NIST/CIS/NIS2…' },
+  { view: 'severity', label: 'Severity calibrator', icon: Gauge, desc: 'High / Med / Low' },
+  { view: 'sod', label: 'SoD conflicts', icon: Split, desc: 'Macierz konfliktów ról' },
+  { view: 'cheatsheet', label: 'Cheat sheet', icon: ScrollText, desc: '1-pager na rozmowę' },
+  { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
+  { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
   { view: 'cases', label: 'Case study', icon: Briefcase, desc: 'Scenariusze audytowe' },
   { view: 'flashcards', label: 'Fiszki', icon: Layers, desc: 'Pojęcia' },
   { view: 'think', label: 'Myśl jak audytor', icon: Brain, desc: 'Wybierz reakcję' },

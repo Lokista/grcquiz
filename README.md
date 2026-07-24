@@ -40,6 +40,19 @@ risk treatment, Access/Change/Backup/Incident/Patch Management, Logging & Monito
 Active Directory, shared admin, MFA, PAM, IAM, ISO 27001/27002, NIST CSF, COBIT, CIS Controls, SOC 2, PCI DSS,
 RODO, CIA Triad, AI Governance, Privacy by Design, AI w audycie, Excel dla audytora.
 
+**Pakiet ściągi rozmowy (bank / Junior IT Auditor):** case’y offboarding + hotfix płatności + **Entra/M365** + **vendor/DPA**,
+soft „dlaczego GRC/bank”, audyt krok po kroku / finding / evidence, Excel leavers×AD,
+scenariusze Teams≠evidence / MFA płatności / Shadow AI.
+**Mock 45 min** w menu bocznym: soft → case bankowy → presja (klient / nie wiem).
+**Blind finding** (tryb swobodny): układanie findingu z faktów w 6 polach. Boss **Incident/RCA**.
+**Request list / PBC** — generator checklist evidence do skopiowania.
+**Exam mode** — timer, bez podpowiedzi, debrief z idealAnswer na końcu.
+**Pro-słowa** — losuj 5 terminów, wybierz zdanie jak na rozmowie.
+**Framework picker** — ten sam fakt → mapowanie ISO/NIST/CIS/NIS2/RODO/PCI…
+**Severity calibrator** — ten sam gap, inny kontekst → High/Med/Low.
+**Cheat sheet** — 1-pager (kopiuj / drukuj PDF): severity, frameworki, pro-słowa, PBC.
+**SoD conflict finder** — zaznacz konflikty ról (płatności, Change, HR, Access).
+
 ## Uruchomienie
 
 ```bash
