@@ -22,6 +22,8 @@ import FrameworkPickerModule from './modules/FrameworkPickerModule.jsx';
 import SeverityCalibratorModule from './modules/SeverityCalibratorModule.jsx';
 import CheatSheetModule from './modules/CheatSheetModule.jsx';
 import SodFinderModule from './modules/SodFinderModule.jsx';
+import EvidenceWalkthroughModule from './modules/EvidenceWalkthroughModule.jsx';
+import ControlMappingModule from './modules/ControlMappingModule.jsx';
 
 function Router() {
   const { view } = useNav();
@@ -45,6 +47,8 @@ function Router() {
     case 'severity': return <SeverityCalibratorModule />;
     case 'cheatsheet': return <CheatSheetModule />;
     case 'sod': return <SodFinderModule />;
+    case 'evidence': return <EvidenceWalkthroughModule />;
+    case 'controlmap': return <ControlMappingModule />;
     case 'quest':
     default: return <QuestMap />;
   }

@@ -52,6 +52,8 @@ scenariusze Teams≠evidence / MFA płatności / Shadow AI.
 **Severity calibrator** — ten sam gap, inny kontekst → High/Med/Low.
 **Cheat sheet** — 1-pager (kopiuj / drukuj PDF): severity, frameworki, pro-słowa, PBC.
 **SoD conflict finder** — zaznacz konflikty ról (płatności, Change, HR, Access).
+**Evidence walkthrough** — czytaj export/ticket/log: co dowodzi / czego brak / follow-up.
+**Control → test → evidence** — mapuj właściwe testy i PBC do kontroli ITGC.
 
 ## Uruchomienie
 
