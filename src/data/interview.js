@@ -379,6 +379,163 @@ export const INTERVIEW_QUESTIONS = [
     ],
     followUp: 'A jeśli backup jest online w tej samej infrastrukturze co produkcja — jakie ryzyko?',
   }),
+
+  // --- Soft + proces ze ściągi rozmowy ---
+  I({
+    id: 'iv-why-grc',
+    topicKey: 'basics',
+    difficulty: 'soft',
+    question: 'Dlaczego GRC / audyt, a nie dalszy development?',
+    keyPoints: [
+      { label: 'Po kodowaniu: bezpieczeństwo procesu > sam UI', keywords: ['bezpieczn', 'kontrolowan', 'zgodn', 'proces', 'nie tylko interfejs', 'lat', 'kodowan'] },
+      { label: 'GRC łączy tech + ryzyko + compliance + ludzie', keywords: ['technolog', 'ryzyko', 'kontrole', 'compliance', 'komunikacj', 'ludzi'] },
+      { label: 'Szerzej: procesy, evidence, decyzje, skuteczność kontroli', keywords: ['proces', 'evidence', 'dowod', 'decyzj', 'skutecznosc kontroli', 'szerzej'] },
+    ],
+    idealAnswer: `Po kilku latach kodowania zrozumiałem, że bardziej interesuje mnie pytanie: czy system i proces są bezpieczne, kontrolowane i zgodne z wymaganiami, niż samo budowanie interfejsu. GRC łączy technologię, ryzyko, kontrole, compliance i komunikację z ludźmi. Chcę patrzeć szerzej: na procesy, evidence, ryzyka, decyzje biznesowe i skuteczność kontroli.`,
+    whyGood: 'Rzeczowa motywacja ze ściągi — nie „bo lepiej płacą”, tylko zmiana perspektywy na procesy i evidence.',
+    commonMistakes: [
+      'Motywacja tylko finansowa / „spokojniejsza praca”.',
+      'Brak mostu skills dev → wartość w audycie.',
+      'Zbyt długa historia życia.',
+    ],
+    followUp: 'Co konkretnie z developmentu przenosisz do audytu?',
+  }),
+
+  I({
+    id: 'iv-why-bank',
+    topicKey: 'basics',
+    difficulty: 'soft',
+    question: 'Dlaczego bank / środowisko finansowe?',
+    keyPoints: [
+      { label: 'Access, dane klientów, transakcje, reputacja, zgodność', keywords: ['access', 'dane klient', 'transakcj', 'reputacj', 'zgodnosc'] },
+      { label: 'Realny wpływ biznesowy kontroli', keywords: ['wplyw biznesow', 'nie teoria', 'praktyka', 'codzienn'] },
+      { label: 'Nauka od doświadczonych + praktyka ryzyka', keywords: ['uczyc', 'doswiadczon', 'praktyka', 'ryzyko', 'bezpieczenstw'] },
+    ],
+    idealAnswer: `Bank to środowisko, gdzie access control, dane klientów, transakcje, reputacja i zgodność mają realny wpływ biznesowy. Chcę uczyć się od doświadczonych osób i pracować tam, gdzie kontrola, ryzyko i bezpieczeństwo nie są teorią, tylko codzienną praktyką.`,
+    whyGood: 'Konkretne powody ze ściągi (dane, transakcje, reputacja) — nie ogólne „lubię finanse”.',
+    commonMistakes: [
+      'Tylko prestiż / pensja.',
+      'Brak powiązania z kontrolami i ryzykiem.',
+    ],
+  }),
+
+  I({
+    id: 'iv-audit-steps',
+    topicKey: 'basics',
+    difficulty: 'tech',
+    question: 'Opisz audyt kontroli krok po kroku.',
+    keyPoints: [
+      { label: 'Scope: system, proces, okres, kontrola', keywords: ['scope', 'system', 'proces', 'okres', 'kontrola'] },
+      { label: 'Polityki/procedury + process/control owner', keywords: ['polityk', 'procedur', 'process owner', 'control owner', 'wlasciciel'] },
+      { label: 'Walkthrough + request list', keywords: ['walkthrough', 'request list', 'dowod', 'logi', 'raport', 'ticket'] },
+      { label: 'Ryzyka, kontrole, próbka', keywords: ['ryzyk', 'kontrol', 'probk', 'sample'] },
+      { label: 'Design + operating effectiveness', keywords: ['design', 'operating', 'skutecznosc'] },
+      { label: 'Wyjątki → finding, risk, recommendation', keywords: ['wyjat', 'finding', 'rekomendacj', 'raport'] },
+    ],
+    idealAnswer: `1) Scope: system, proces, okres, kontrola. 2) Polityki/procedury. 3) Process owner / control owner. 4) Walkthrough. 5) Request list: dowody, logi, raporty, tickety. 6) Ryzyka i kontrole. 7) Próbka. 8) Design i operating effectiveness. 9) Wyjątki: wyjaśnienia i dodatkowe dowody. 10) Finding, risk, recommendation, raport.`,
+    whyGood: 'Pełna sekwencja ze ściągi — rekruter sprawdza czy nie skaczysz od razu do findingów.',
+    commonMistakes: [
+      'Od razu finding bez walkthrough i evidence.',
+      'Brak rozróżnienia design vs operating.',
+      'Pominięcie ownerów i scope.',
+    ],
+  }),
+
+  I({
+    id: 'iv-finding-template',
+    topicKey: 'basics',
+    difficulty: 'tech',
+    question: 'Jak budujesz finding (ustalenie)?',
+    keyPoints: [
+      { label: 'Condition — co znaleziono i w jakiej próbce', keywords: ['condition', 'stan', 'probk', 'znalezion'] },
+      { label: 'Criteria — polityka/framework/wymaganie', keywords: ['criteria', 'kryterium', 'polityk', 'framework', 'wymagan'] },
+      { label: 'Cause — dlaczego powstało', keywords: ['cause', 'przyczyn'] },
+      { label: 'Risk/Impact — ryzyko biznesowe', keywords: ['risk', 'impact', 'wplyw', 'biznes'] },
+      { label: 'Recommendation + management response', keywords: ['recommendation', 'rekomendacj', 'management response', 'klient', 'termin'] },
+    ],
+    idealAnswer: `1. Condition — co znaleziono i w jakiej próbce. 2. Criteria — wymaganie/polityka/framework. 3. Cause — dlaczego powstało. 4. Risk/Impact — ryzyko biznesowe. 5. Recommendation — co poprawić. 6. Management response — co klient zrobi i do kiedy.`,
+    whyGood: 'Szablon ze ściągi — kompletny finding zamykalny z odpowiedzią klienta.',
+    commonMistakes: [
+      '„Jest źle” bez criteria.',
+      'Rekomendacja bez ownera/terminu (management response).',
+      'Mylenie condition z cause.',
+    ],
+  }),
+
+  I({
+    id: 'iv-evidence-quality',
+    topicKey: 'basics',
+    difficulty: 'tech',
+    question: 'Jakie evidence jest mocne, a jakie słabe?',
+    keyPoints: [
+      { label: 'Mocne: export, log, ticket, approval, raport, config z timestampem', keywords: ['export', 'log', 'ticket', 'approval', 'raport', 'timestamp', 'restore test', 'access review'] },
+      { label: 'Słabe: ustna deklaracja, screenshot bez kontekstu', keywords: ['ustna', 'deklaracj', 'screenshot', 'bez kontekstu', 'slabe'] },
+      { label: 'Bez dowodu nie potwierdzam skuteczności', keywords: ['bez dowodu', 'nie potwierdz', 'skutecznosc', 'operating'] },
+    ],
+    idealAnswer: `Mocne: system export, log, ticket, approval, raport, konfiguracja z timestampem, restore test report, access review report. Słabe: ustna deklaracja, pojedynczy screenshot bez kontekstu. Zasada: kontrola może istnieć, ale bez dowodu nie potwierdzam skutecznego działania.`,
+    whyGood: 'Proste rozróżnienie ze ściągi + zasada „evidence > deklaracje”.',
+    commonMistakes: [
+      'Uznawanie deklaracji klienta za pass.',
+      'Screenshot bez daty jako jedyny dowód.',
+    ],
+  }),
+
+  I({
+    id: 'iv-risk-steps',
+    topicKey: 'basics',
+    difficulty: 'tech',
+    question: 'Wymień etapy oceny ryzyka.',
+    keyPoints: [
+      { label: 'Asset → Threat → Vulnerability', keywords: ['asset', 'threat', 'vulnerability', 'zagrozen', 'podatnosc'] },
+      { label: 'Existing controls → Likelihood → Impact', keywords: ['existing', 'kontrol', 'likelihood', 'impact', 'prawdopodobienstw', 'wplyw'] },
+      { label: 'Risk score → Residual → Treatment → Monitoring', keywords: ['risk score', 'residual', 'treatment', 'accept', 'mitigate', 'transfer', 'avoid', 'monitoring'] },
+    ],
+    idealAnswer: `1 Asset, 2 Threat, 3 Vulnerability, 4 Existing controls, 5 Likelihood, 6 Impact, 7 Risk score, 8 Residual risk, 9 Treatment (accept/mitigate/transfer/avoid), 10 Monitoring. Najpierw rozumiem co chronię i co może zaszkodzić, potem L×I, na końcu czy kontrole realnie zmniejszają ryzyko i co zostaje.`,
+    whyGood: 'Pełna lista 10 kroków ze ściągi — nie tylko „L×I”.',
+    commonMistakes: [
+      'Tylko likelihood×impact bez asset/threat/vuln.',
+      'Pominięcie residual i treatment.',
+      'Residual przed kontrolami.',
+    ],
+  }),
+
+  I({
+    id: 'iv-dev-security',
+    topicKey: 'basics',
+    difficulty: 'soft',
+    question: 'Co zabezpieczałeś jako developer?',
+    keyPoints: [
+      { label: 'Walidacja, XSS/CSRF, authz/authn, role', keywords: ['walidacj', 'xss', 'csrf', 'uwierzytelnian', 'autoryzacj', 'rol'] },
+      { label: 'Formularze, cookies/session, Privacy by Design', keywords: ['formularz', 'cookie', 'session', 'privacy', 'minimalizacj', 'dane osobow'] },
+      { label: 'PR, code review, tickety, workflow', keywords: ['pr', 'code review', 'ticket', 'jira', 'github', 'workflow', 'change'] },
+    ],
+    idealAnswer: `Walidacja danych wejściowych, ochrona przed XSS/CSRF, logika uwierzytelniania i autoryzacji, ograniczenia ról, bezpieczna obsługa formularzy, cookies/session, Privacy by Design i minimalizacja danych, kontrola dostępu do funkcji, bezpieczne komunikaty błędów, praca na ticketach, PR i code review.`,
+    whyGood: 'Konkretny most dev→audyt ze ściągi (Secure SDLC + Change Management).',
+    commonMistakes: [
+      'Tylko „pisałem React”.',
+      'Brak powiązania z kontrolami i compliance.',
+    ],
+  }),
+
+  I({
+    id: 'iv-i-dont-know',
+    topicKey: 'basics',
+    difficulty: 'soft',
+    question: 'Co mówisz, gdy nie znasz odpowiedzi na pytanie techniczne?',
+    keyPoints: [
+      { label: 'Nie zgaduję', keywords: ['nie zgad', 'nie zgaduj', 'dokladnosc'] },
+      { label: 'Zweryfikuję w dokumentacji / polityce', keywords: ['weryfik', 'dokumentacj', 'polityk', 'procedure'] },
+      { label: 'Lub z bardziej doświadczoną osobą / seniorem', keywords: ['doswiadczon', 'senior', 'manager', 'zespol'] },
+      { label: 'W audycie weryfikacja > szybkie zgadywanie', keywords: ['audyt', 'weryfikacj', 'wazniejsz', 'zgadywan'] },
+    ],
+    idealAnswer: `Nie zgadywałbym. Powiedziałbym, że potrzebuję to zweryfikować w dokumentacji, polityce lub z bardziej doświadczoną osobą. W audycie dokładność i weryfikacja są ważniejsze niż szybkie zgadywanie.`,
+    whyGood: 'Odpowiedź ze ściągi — pokazuje dojrzałość juniora.',
+    commonMistakes: [
+      'Zgadywanie na siłę.',
+      '„Nie wiem” bez planu weryfikacji.',
+      'Obiecywanie wiedzy, której nie masz.',
+    ],
+  }),
 ];
 
 export const INTERVIEW_MAP = Object.fromEntries(INTERVIEW_QUESTIONS.map((q) => [q.id, q]));

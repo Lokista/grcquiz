@@ -255,6 +255,448 @@ Rekomendacje: kwartalny test restore z pomiarem RTO/RPO i raportem; kopia offlin
 
 Residual: po wdrożeniu (test restore + offline/immutable + DR tabletop + szyfrowanie) residual utraty danych/przestoju spada poniżej apetytu; pozostałe ryzyko regionalne kompensuje DR/geo-redundancja. Nigdy residual = 0.`,
   }),
+
+  // --- Pakiet ze ściągi GRC / rozmowa bankowa ---
+  C({
+    id: 'case-bank-leaver',
+    topicKey: 'identity',
+    title: 'Bank — offboarding / leaver (AD)',
+    difficulty: 'junior',
+    minutes: 12,
+    scenario: {
+      context: `Bank (retail). Scope: offboarding / leaver — Active Directory + dostęp do systemów. Manager mówi: „U nas offboarding działa — HR zawsze pisze do IT.” Dostajesz: zrzut czatu Teams z HR (bez daty) i ustną deklarację.`,
+      facts: [
+        { label: 'Deklaracja managera', value: '„HR zawsze pisze do IT”', flag: 'risk' },
+        { label: 'Evidence dostarczone', value: 'Screenshot Teams bez daty + ustna deklaracja', flag: 'risk' },
+        { label: 'Polityka (klient)', value: 'Disable AD/ERP/VPN/mail w dniu odejścia', flag: 'ok' },
+        { label: 'Próbka (później)', value: 'Do ustalenia po request list', flag: 'ok' },
+      ],
+    },
+    questions: [
+      {
+        id: 'q-next', type: 'single', points: 3,
+        prompt: 'Co robisz NAJPIERW jako audytor?',
+        options: [
+          'Odhaczam kontrolę — manager potwierdził, że działa',
+          'Ustalam scope, ownerów, walkthrough; proszę o request list (HR date, ticket, disable, logi) — nie biorę czatu za dowód',
+          'Wyłączam konta pracowników samodzielnie',
+          'Piszę finding krytyczny bez próbki',
+        ],
+        correct: 1,
+        explain: 'Ściąga: scope → owner → walkthrough → request list. Deklaracja i Teams bez daty = słabe evidence.',
+      },
+      {
+        id: 'q-evidence', type: 'multi', points: 5,
+        prompt: 'Jakie evidence jest na request list offboardingu (ściąga)?',
+        options: [
+          'Data odejścia z HR',
+          'Ticket offboardingowy',
+          'Data disable konta',
+          'Logi / potwierdzenie blokady AD (oraz ERP/VPN/mail wg polityki)',
+          'Odebranie aplikacji, grup, MFA/tokena, dostępu fizycznego',
+          'Sam zrzut Teams bez daty jako jedyny dowód',
+        ],
+        correct: [0, 1, 2, 3, 4],
+        explain: 'Evidence checklist offboarding. Ustna deklaracja / screenshot bez kontekstu = słabe.',
+      },
+      {
+        id: 'q-redflags', type: 'multi', points: 4,
+        prompt: 'Jakie red flags szukasz przy leaverze?',
+        options: [
+          'Konto aktywne po odejściu',
+          'Brak ticketu / brak daty disable',
+          'Brak access review w kontekście leaverów',
+          'Shared account / nadmiarowe role przy dostępie',
+          'Zielony status „backup successful” bez restore',
+        ],
+        correct: [0, 1, 2, 3],
+        explain: 'Backup to inny obszar. Leaver: unauthorized access gdy konto żyje po odejściu.',
+      },
+      {
+        id: 'q-pass', type: 'single', points: 3,
+        prompt: 'Kiedy uznasz PASS na próbce?',
+        options: [
+          'Gdy manager potwierdzi ustnie, że „zawsze tak robimy”',
+          'Gdy na próbce: data HR ↔ ticket ↔ disable w terminie polityki + logi',
+          'Gdy jest jakikolwiek screenshot czatu',
+          'Gdy polityka istnieje — bez testu operating',
+        ],
+        correct: 1,
+        explain: 'Pass = operating effectiveness na próbce z mocnym evidence. Exception → wyjaśnienie + dodatkowy dowód; finding gdy potwierdzone (np. konto aktywne).',
+      },
+      {
+        id: 'q-severity', type: 'single', points: 2,
+        prompt: 'Konto byłego pracownika aktywne 14 dni po odejściu — severity (bank)?',
+        options: [
+          'Low — to tylko jeden przypadek',
+          'High — unauthorized access, dane klientów / systemy bankowe',
+          'Brak finding — HR obiecał poprawę',
+          'Medium tylko gdy brak MFA',
+        ],
+        correct: 1,
+        explain: 'Ściąga banking: konto po odejściu = unauthorized access; high przy danych/systemach krytycznych.',
+      },
+    ],
+    modelAnalysis: `Krok po kroku (ściąga): scope (system/proces/okres/kontrola) → polityki → process/control owner → walkthrough → request list → ryzyka/kontrole → próbka → design vs operating → wyjątki → finding.
+
+Evidence offboarding: data HR, ticket, data disable, logi blokady, odebranie aplikacji/grup/MFA/fizycznego. Teams bez daty + deklaracja = słabe — nie potwierdzam skuteczności.
+
+Red flags: konto aktywne po odejściu, brak ticketu/disable, shared/nadmiarowe role, brak review. Pass tylko przy śladzie HR↔ticket↔disable+logi. Finding: condition (np. 1/25 aktywne), criteria (polityka disable w dniu X), cause, risk unauthorized access, recommendation (SLA + automatyzacja HR→IAM), management response.`,
+  }),
+
+  C({
+    id: 'case-bank-hotfix',
+    topicKey: 'controls',
+    title: 'Bank — hotfix płatności bez Change Management',
+    difficulty: 'junior',
+    minutes: 12,
+    scenario: {
+      context: `Core banking / system płatności. Developer: „Wrzuciłem hotfix na prod, bo było pilne — ticket zrobię później. Testowałem lokalnie.” Brak approvala przed wdrożeniem, brak UAT, brak rollback planu w ticketcie.`,
+      facts: [
+        { label: 'Ticket przed wdrożeniem', value: 'Brak (obiecany „później”)', flag: 'risk' },
+        { label: 'Approval przed deploy', value: 'Brak', flag: 'risk' },
+        { label: 'Testy / UAT', value: 'Tylko lokalnie', flag: 'risk' },
+        { label: 'Rollback plan', value: 'Brak w ticketcie', flag: 'risk' },
+        { label: 'SoD', value: 'Developer sam wdraża własną zmianę', flag: 'risk' },
+        { label: 'System', value: 'Płatności — fraud / błąd płatności', flag: 'risk' },
+      ],
+    },
+    questions: [
+      {
+        id: 'q-redflags', type: 'multi', points: 5,
+        prompt: 'Zaznacz red flags Change Management z tego opisu:',
+        options: [
+          'Brak ticketu przed wdrożeniem',
+          'Brak approvala przed wdrożeniem',
+          'Brak testów/UAT (tylko lokalnie)',
+          'Deployment przed zgodą / „ticket później”',
+          'Developer sam wdraża własną zmianę',
+          'Brak rollback planu',
+          'Istnienie polityki Change — sama w sobie red flag',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Ściąga Change: ticket, risk assessment, approval, review, testy/UAT, deploy, dokumentacja, rollback. Polityka to kryterium, nie red flag.',
+      },
+      {
+        id: 'q-evidence', type: 'multi', points: 4,
+        prompt: 'Jakie evidence poprosisz (checklist Change)?',
+        options: [
+          'Ticket / opis zmiany',
+          'Approval przed wdrożeniem',
+          'Test / UAT evidence',
+          'PR / code review',
+          'Deployment log',
+          'Rollback plan / dokumentacja',
+          'Sam screenshot Teams „było pilne”',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Evidence checklist Change ze ściągi. Deklaracja „pilne” ≠ dowód kontroli.',
+      },
+      {
+        id: 'q-severity', type: 'single', points: 3,
+        prompt: 'Severity w banku / systemie płatności?',
+        options: [
+          'Low — hotfixi są normalne',
+          'High — brak approvala/testów/rollback przy płatnościach = fraud, awaria, niezgodność',
+          'Medium tylko gdy brak MFA',
+          'Brak finding — emergency zawsze OK bez śladu',
+        ],
+        correct: 1,
+        explain: 'Odpowiedzi bankowe: system płatności = duże ryzyko fraudu/błędu; brak approvala zmiany = awaria/luka/niezgodność.',
+      },
+      {
+        id: 'q-recs', type: 'multi', points: 4,
+        prompt: 'Rekomendacje zgodne z procesem Change (ściąga)?',
+        options: [
+          'Ticket + opis + risk assessment przed wdrożeniem',
+          'Approval przed wdrożeniem',
+          'Development + code review',
+          'Testy / UAT przed prod',
+          'Deployment z dokumentacją i rollback planem',
+          'Emergency change z retro CR / approval (nie „bez śladu”)',
+          'Zakazać wszystkich hotfixów na zawsze',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Proces ze ściągi + emergency ze śladem. Zakaz absolutny nie jest rekomendacją audytora.',
+      },
+    ],
+    modelAnalysis: `Red flags: brak ticketu/approvalu/testów, deploy przed zgodą, developer sam wdraża, brak rollback.
+
+Evidence: ticket, approval, test/UAT, PR/review, deployment log, rollback.
+
+Severity High w płatnościach (fraud, błąd, reputacja, zgodność).
+
+Rekomendacja: pełny Change (ticket → risk → approval → dev → review → test/UAT → deploy → dokumentacja + rollback); emergency z retro CR. Finding wg szablonu: condition, criteria (polityka CM), cause, risk/impact, recommendation, management response.`,
+  }),
+
+  C({
+    id: 'case-entra-bank',
+    topicKey: 'identity',
+    title: 'Bank — Microsoft Entra / M365',
+    difficulty: 'junior',
+    minutes: 12,
+    scenario: {
+      context: `Bank używa Microsoft Entra ID (Azure AD) + M365. Audyt IAM w chmurze. Ustalenia z rozpoznania:`,
+      facts: [
+        { label: 'Privileged roles', value: 'Global Admin: 18 kont; PIM nie wymuszony (stałe role)', flag: 'risk' },
+        { label: 'MFA / Conditional Access', value: 'MFA wyłączone dla „awaryjnych” kont break-glass; legacy auth włączony', flag: 'risk' },
+        { label: 'Guest users', value: '240 guestów; brak kwartalnego review; część z dostępem do SharePoint z danymi klientów', flag: 'risk' },
+        { label: 'Service principals', value: 'App registrations z Client Secret bez ownera i bez rotacji >18 mies.', flag: 'risk' },
+        { label: 'Audit logs', value: 'Logi są, retencja 30 dni; brak alertów na role changes', flag: 'risk' },
+        { label: 'Access review', value: 'Nie prowadzony dla privileged / guest', flag: 'risk' },
+      ],
+    },
+    questions: [
+      {
+        id: 'q-ask', type: 'multi', points: 5,
+        prompt: 'O co pytasz / co weryfikujesz w Entra (ściąga Cloud/M365)?',
+        options: [
+          'IAM, Conditional Access, MFA',
+          'Privileged roles + PIM/PAM',
+          'Guest users, inactive accounts, role changes',
+          'Service principals, legacy auth',
+          'Audit logs, backup/retention, secure configuration',
+          'Ownerów, access review, hardening',
+          'Kolor brandingu banku',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Detail Cloud/Entra ze ściągi — branding nie jest kontrolą IAM.',
+      },
+      {
+        id: 'q-risks', type: 'multi', points: 5,
+        prompt: 'Największe ryzyka w tym scenariuszu:',
+        options: [
+          'Za dużo stałych Global Admin bez PIM (privilege escalation / przejęcie)',
+          'Legacy auth + wyjątki MFA (account takeover)',
+          'Guest bez review z dostępem do danych klientów (data leakage / unauthorized access)',
+          'Service principals bez ownera i stare sekrety',
+          'Krótka retencja logów + brak alertów role changes (słaba detekcja)',
+          'Brak access review privileged/guest',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Wszystkie wynikają z faktów — mapują na threats ze ściągi (unauthorized access, privilege, leakage, misconfig).',
+      },
+      {
+        id: 'q-evidence', type: 'multi', points: 4,
+        prompt: 'Jakie evidence poprosisz?',
+        options: [
+          'Eksport privileged roles + status PIM',
+          'Polityki Conditional Access + raport MFA compliance',
+          'Lista guest + ostatni access review',
+          'Lista app registrations / service principals + owner + data sekretu',
+          'Sample audit logs / alerty role changes',
+          'Sam zrzut Teams „mamy MFA”',
+        ],
+        correct: [0, 1, 2, 3, 4],
+        explain: 'Mocne evidence = export/raport/konfiguracja. Deklaracja = słabe.',
+      },
+      {
+        id: 'q-recs', type: 'multi', points: 4,
+        prompt: 'Rekomendacje:',
+        options: [
+          'Wymuszyć PIM (JIT) dla privileged; zredukować stałych Global Admin',
+          'MFA + Conditional Access; wyłączyć legacy auth; kontrolowane break-glass',
+          'Kwartalny review guest + least privilege do SharePoint',
+          'Owner + rotacja sekretów service principals; monitoring',
+          'Dłuższa retencja logów + alerty na role changes',
+          'Wyłączyć cały Entra do czasu remediacji',
+        ],
+        correct: [0, 1, 2, 3, 4],
+        explain: 'Proporcjonalne kontrole ze ściągi (PIM/PAM, MFA, review, logging). Shutdown Entra nie jest rekomendacją audytora.',
+      },
+      {
+        id: 'q-severity', type: 'single', points: 2,
+        prompt: '18 stałych Global Admin bez PIM + legacy auth — severity w banku?',
+        options: [
+          'Low',
+          'High — privileged + account takeover przy danych/transakcjach',
+          'Brak finding — chmura Microsoft jest bezpieczna domyślnie',
+          'Medium tylko gdy brak backupu',
+        ],
+        correct: 1,
+        explain: 'Banking: brak MFA/admini / privilege = high risk.',
+      },
+    ],
+    modelAnalysis: `Entra checklist (ściąga): IAM, CA, MFA, privileged + PIM/PAM, guest, inactive, audit logs, retention, public exposure, secure config, role changes, service principals, legacy auth + ownerzy/review/logi/hardening.
+
+Tu: za dużo stałych GA, brak PIM, legacy auth, guest bez review, stare SP, krótka retencja, brak alertów = unauthorized access / privilege escalation / leakage / słaba detekcja.
+
+Evidence: export ról, CA/MFA, guest review, SP owners/sekrety, logi. Rec: PIM JIT, redukcja GA, MFA+CA, off legacy, guest review, SP hygiene, retencja+alerty.`,
+  }),
+
+  C({
+    id: 'case-vendor-bank',
+    topicKey: 'frameworks',
+    title: 'Bank — third party / vendor (chmura kredytu)',
+    difficulty: 'junior',
+    minutes: 11,
+    scenario: {
+      context: `Bank wdraża SaaS do scoringu kredytowego z danymi klientów. Vendor ma dostęp do API i plików. Due diligence przed go-live jest „w toku”.`,
+      facts: [
+        { label: 'Umowa / DPA', value: 'Umowa handlowa jest; DPA „wyślemy później”', flag: 'risk' },
+        { label: 'SOC2 / ISO', value: 'Vendor pokazał marketing PDF „jesteśmy secure”; brak SOC2 Type II / ISO cert', flag: 'risk' },
+        { label: 'SLA', value: 'Brak jasnego SLA incident notification i uptime', flag: 'risk' },
+        { label: 'Access list', value: '3 konta vendor + shared „support”; brak review', flag: 'risk' },
+        { label: 'Subprocessors / data location', value: 'Nieudokumentowane', flag: 'risk' },
+        { label: 'Exit / right to audit', value: 'Brak w umowie', flag: 'risk' },
+      ],
+    },
+    questions: [
+      {
+        id: 'q-risks', type: 'multi', points: 5,
+        prompt: 'Ryzyka third party (ściąga):',
+        options: [
+          'Dostęp vendora do danych/systemów',
+          'Słaby security posture / brak dowodu kontroli (SOC2/ISO)',
+          'Subprocessors i lokalizacja danych nieznane',
+          'Brak incident notification / SLA',
+          'Shared support account + brak access review',
+          'Brak exit plan / right to audit',
+          'Zbyt ładne logo vendora',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Detail Third Party ze ściągi. Logo nie jest ryzykiem.',
+      },
+      {
+        id: 'q-evidence', type: 'multi', points: 4,
+        prompt: 'Evidence checklist vendor:',
+        options: [
+          'Umowa',
+          'DPA',
+          'SOC2 / ISO',
+          'Vendor risk assessment',
+          'SLA report',
+          'Access list',
+          'Exit plan / right to audit',
+          'Sam pitch deck sprzedażowy',
+        ],
+        correct: [0, 1, 2, 3, 4, 5, 6],
+        explain: 'Evidence Vendor ze ściągi. Pitch ≠ dowód kontroli.',
+      },
+      {
+        id: 'q-severity', type: 'single', points: 3,
+        prompt: 'Brak DPA przy danych klientów banku przed go-live — severity?',
+        options: [
+          'Low — DPA można dograć po starcie',
+          'High — RODO/compliance + third-party risk; nie startuj bez DPA i due diligence',
+          'Brak tematu audytu IT',
+          'Medium tylko gdy brak MFA w banku',
+        ],
+        correct: 1,
+        explain: 'RODO + NIS2 supply chain / vendor; banking answers łączą dane klientów z compliance.',
+      },
+      {
+        id: 'q-recs', type: 'multi', points: 4,
+        prompt: 'Rekomendacje przed go-live:',
+        options: [
+          'Podpisać DPA przed przetwarzaniem danych',
+          'Wymagać SOC2 Type II / ISO lub równoważnej oceny + vendor risk assessment',
+          'SLA: incident notification, uptime; right to audit; exit plan',
+          'Imienne konta vendora, least privilege, access review; zakaz shared support',
+          'Udokumentować subprocessors i data location',
+          'Wdrożyć bez umowy — „zaufanie biznesowe”',
+        ],
+        correct: [0, 1, 2, 3, 4],
+        explain: 'Kontrole TPRM ze ściągi. Start bez umowy/DPA = unikaj.',
+      },
+    ],
+    modelAnalysis: `Third party (ściąga): dostęp do danych/systemów, SLA, posture, subcontractors, data location, incident notification. Evidence: umowa, DPA, SOC2/ISO, vendor risk assessment, SLA, access list, exit, right to audit.
+
+Tu: brak DPA, brak realnego assurance, brak SLA/notyfikacji, shared access, nieznane subprocessors/location, brak exit/audit clause = high przed go-live z danymi klientów.
+
+Rec: DPA + assurance + SLA + named access/review + dokumentacja łańcucha + exit/right to audit przed produkcją.`,
+  }),
+
+  C({
+    id: 'case-incident-bank',
+    topicKey: 'controls',
+    title: 'Bank — Incident Management / RCA',
+    difficulty: 'junior',
+    minutes: 11,
+    scenario: {
+      context: `Bank: incydent — niedostępność kanału płatności mobilnych ~3h. Audyt procesu Incident Management.`,
+      facts: [
+        { label: 'Procedura IR', value: 'Dokument istnieje, ostatni update 2 lata temu', flag: 'risk' },
+        { label: 'Klasyfikacja', value: 'Traktowane jako „usterka IT”; brak formalnego P1 mimo wpływu na klientów', flag: 'risk' },
+        { label: 'Eskalacja / SLA', value: 'Pierwszy ticket po 90 min; brak jasnego SLA reakcji', flag: 'risk' },
+        { label: 'Rejestr', value: 'Jest ticket, ale bez timeline zdarzeń', flag: 'risk' },
+        { label: 'RCA', value: 'Brak root cause analysis — „naprawiliśmy restartem”', flag: 'risk' },
+        { label: 'Lessons learned', value: 'Brak; te same alerty ignorowane tydzień wcześniej', flag: 'risk' },
+      ],
+    },
+    questions: [
+      {
+        id: 'q-check', type: 'multi', points: 5,
+        prompt: 'Co sprawdzasz w Incident Management (ściąga)?',
+        options: [
+          'Czy jest procedura',
+          'Klasyfikacja incydentów',
+          'Kto eskaluje i SLA reakcji',
+          'Ticket / incident register',
+          'Root cause analysis',
+          'Lessons learned',
+          'Tylko kolor statusu w Jira',
+        ],
+        correct: [0, 1, 2, 3, 4, 5],
+        explain: 'Detail Incident ze ściągi — pełny cykl, nie sam ticket.',
+      },
+      {
+        id: 'q-risks', type: 'multi', points: 4,
+        prompt: 'Ryzyka z tego scenariusza:',
+        options: [
+          'Opóźniona reakcja = większy impact',
+          'Brak forensic / timeline evidence',
+          'Brak kontroli nad incydentem (zła klasyfikacja)',
+          'Powtarzalność — brak lessons learned',
+          'Brak RCA = ta sama przyczyna wróci',
+        ],
+        correct: [0, 1, 2, 3, 4],
+        explain: 'Ściąga: opóźniona reakcja, brak forensic evidence, brak kontroli nad incydentem.',
+      },
+      {
+        id: 'q-evidence', type: 'multi', points: 3,
+        prompt: 'Evidence checklist Incident:',
+        options: [
+          'Ticket / rejestr',
+          'RCA',
+          'Lessons learned',
+          'Sam ustny „już działa”',
+        ],
+        correct: [0, 1, 2],
+        explain: 'Evidence: ticket, RCA, lessons learned.',
+      },
+      {
+        id: 'q-severity', type: 'single', points: 2,
+        prompt: '3h downtime płatności + brak RCA/lessons — severity?',
+        options: [
+          'Low',
+          'High — wpływ na klientów/transakcje + słaba gotowość IR',
+          'Brak findingu — restart wystarczył',
+          'Medium tylko gdy brak MFA',
+        ],
+        correct: 1,
+        explain: 'Banking: płatności + opóźniona reakcja / brak RCA = istotny impact.',
+      },
+      {
+        id: 'q-recs', type: 'multi', points: 4,
+        prompt: 'Rekomendacje:',
+        options: [
+          'Zaktualizować procedurę IR + klasyfikację (P1 przy kanale płatności)',
+          'SLA reakcji/eskalacji z mierzalnym timeline w tickecie',
+          'Obowiązkowe RCA dla P1/P2',
+          'Lessons learned + follow-up na alerty wcześniej ignorowane',
+          'Zakazać restartów serwerów na zawsze',
+        ],
+        correct: [0, 1, 2, 3],
+        explain: 'Proces IR ze ściągi. Restart może być akcją doraźną — ale bez RCA to nie zamknięcie.',
+      },
+    ],
+    modelAnalysis: `Incident (ściąga): procedura, klasyfikacja, kto eskaluje, SLA, ticket/register, RCA, lessons learned. Ryzyko opóźnionej reakcji = większy impact, brak forensic, brak kontroli.
+
+Tu: stara procedura, zła klasyfikacja, wolny ticket, brak timeline/RCA/lessons, ignorowane alerty = high przy płatnościach.
+
+Evidence: ticket, RCA, lessons learned. Rec: IR update, SLA+timeline, RCA obowiązkowe, lessons + alert hygiene.`,
+  }),
 ];
 
 export const CASE_MAP = Object.fromEntries(CASE_STUDIES.map((c) => [c.id, c]));

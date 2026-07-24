@@ -81,7 +81,7 @@ export default function QuestMap() {
                 <div className="font-bold text-slate-100">Endless Quiz</div>
                 <Pill tone="accent">Szybki</Pill>
               </div>
-              <div className="text-sm text-slate-400 mt-1">Bez limitu pytań — lekcje, scenariusze, case study i fiszki w losowej kolejności.</div>
+              <div className="text-sm text-slate-400 mt-1">146+ pytań (ABCD, kolejność, segregacja) — pełna tura bez powtórek.</div>
             </div>
           </div>
         </button>

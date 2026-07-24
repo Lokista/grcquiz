@@ -24,4 +24,25 @@ export const TOOLS_LESSONS = [
       explain: 'XLOOKUP/INDEX-MATCH łączy zbiór dostępu z HR; ISNA/IFERROR flaguje konta bez trafienia = "zombie" (dostęp bez zatrudnienia).',
     },
   }),
+
+  L({
+    id: 'excel-leaver-analytics',
+    topicKey: 'tools',
+    title: 'Excel: leavers vs active users',
+    minutes: 7,
+    definition: `Data analytics w audycie: szukasz wyjątków w danych — HR leavers vs active users, admini bez MFA, zmiany bez ticketu, duplikaty, loginy po odejściu. Excel: Pivot, XLOOKUP/VLOOKUP, COUNTIF/COUNTIFS, filtry. Duplikaty sprawdzasz po employee ID / login / email.`,
+    example: `Arkusz A: lista zwolnień HR (employee_id, leave_date). Arkusz B: eksport AD (login, employee_id, enabled, last_logon). XLOOKUP employee_id z A w B → jeśli enabled=TRUE i leave_date < dziś = exception (unauthorized access). COUNTIFS: ile aktywnych po leave_date. Pivot: wyjątki per dział.`,
+    interviewAnswer: `Do offboardingu łączę listę HR leavers z eksportem AD przez XLOOKUP/VLOOKUP po employee ID lub loginie. Flaguuję konta enabled po dacie odejścia, liczę COUNTIF/COUNTIFS, Pivotem grupuję wyjątki. Duplikaty loginu/emailu też sprawdzam. To kandydaci do próbki i findingu — nie kończę na samym Excelu bez ticketu/disable evidence.`,
+    commonMistakes: [
+      'Sam Excel bez request list (ticket, data disable, logi).',
+      'Złe klucze join (login vs email) → fałszywe zombie.',
+      'Edycja źródła zamiast kopii.',
+    ],
+    quiz: {
+      question: 'HR leave_date = 1.03, AD enabled = TRUE 15.03. To głównie:',
+      options: ['Pass kontroli', 'Exception / red flag unauthorized access', 'Dowód MFA', 'Kompensująca kontrola'],
+      correct: 1,
+      explain: 'Konto aktywne po odejściu = klasyczny wyjątek leaver; dalej: ticket, disable, logi i ewentualny finding.',
+    },
+  }),
 ];

@@ -282,4 +282,77 @@ export const BASICS_LESSONS = [
       explain: 'Rekomendacja bez właściciela i terminu nie jest zamykalna. Poprawne ustalenie ma kryterium, warunek, przyczynę, skutek, rekomendację z ownerem i deadlinem.',
     },
   }),
+
+  L({
+    id: 'audit-steps-sciaga',
+    topicKey: 'basics',
+    title: 'Audytor — krok po kroku (ściąga)',
+    minutes: 7,
+    definition: `Sekwencja pracy audytora: 1) Scope (system, proces, okres, kontrola). 2) Polityki/procedury. 3) Process owner / control owner. 4) Walkthrough. 5) Request list (dowody, logi, raporty, tickety). 6) Ryzyka i kontrole. 7) Próbka. 8) Design i operating effectiveness. 9) Wyjątki + dodatkowe evidence. 10) Finding, risk, recommendation, raport.`,
+    example: `Offboarding w banku: scope = leaver AD za Q1 → polityka disable w dniu X → owner IAM → walkthrough HR→IT → request: data HR, ticket, disable, logi → próbka 25 → wyjątek konto aktywne → finding unauthorized access.`,
+    interviewAnswer: `Zaczynam od scope i ownerów, robię walkthrough, zbieram request list, testuję próbkę design i operating, przy wyjątkach proszę o wyjaśnienia i dodatkowe dowody, a potwierdzony problem opisuję jako finding z ryzykiem i rekomendacją.`,
+    commonMistakes: [
+      'Finding przed evidence i próbką.',
+      'Branie deklaracji / czatu Teams za dowód.',
+      'Mieszanie design z operating.',
+    ],
+    quiz: {
+      question: 'Co jest PRZED testem próbki w sekwencji audytora?',
+      options: ['Final report', 'Walkthrough i request list', 'Tylko management response', 'Zamknięcie CAPA'],
+      correct: 1,
+      explain: 'Walkthrough i request list (PBC) są przed operating testami — unikasz złego scope i pustych próbek.',
+    },
+  }),
+
+  L({
+    id: 'universal-case-rule',
+    topicKey: 'basics',
+    title: 'Uniwersalna regułka na case',
+    minutes: 5,
+    definition: `Najpierw rozumiem proces i ustalam właściciela kontroli. Potem proszę o polityki, procedury, tickety, logi, eksporty, raporty i approvale. Identyfikuję ryzyko, kontrole i dowód. Testuję próbkę. Jeśli widzę wyjątek — wyjaśnienie i dodatkowe evidence. Jeśli problem się potwierdza — finding, ryzyko biznesowe i rekomendacje.`,
+    example: `Change bez approvala: owner Change Manager → polityka CM → ticket/approval/UAT/rollback → próbka 15 zmian → 4 bez approvala → finding + risk awarii/luki + rekomendacja pełnego CM.`,
+    interviewAnswer: `Na case: proces + control owner → artefakty → ryzyko/kontrola/dowód → próbka → wyjątki z dodatkowym evidence → potwierdzone: finding + risk + recommendation.`,
+    commonMistakes: [
+      'Skakanie do rekomendacji narzędzi bez procesu.',
+      'Brak ownera kontroli.',
+      'Exception bez prośby o dodatkowy dowód.',
+    ],
+    quiz: {
+      question: 'Widzisz wyjątek w próbce. Co robisz zanim napiszesz finding?',
+      options: [
+        'Od razu raportujesz major',
+        'Prosisz o wyjaśnienie i dodatkowe evidence; finding gdy potwierdzone',
+        'Usuwasz wyjątek z próbki',
+        'Wierzysz ustnej deklaracji',
+      ],
+      correct: 1,
+      explain: 'Ściąga: wyjątek → wyjaśnienie + dodatkowe evidence; finding dopiero gdy problem się potwierdza.',
+    },
+  }),
+
+  L({
+    id: 'evidence-checklist-sciaga',
+    topicKey: 'basics',
+    title: 'Evidence checklist (obszary)',
+    minutes: 6,
+    definition: `Access: ticket, approval, export roli. Change: ticket, approval, test, PR, deployment log. Backup: raport, restore test, RTO/RPO. AD: lista adminów, last login, MFA, review. Incident: ticket, RCA, lessons learned. Vendor: umowa, DPA, SOC2/ISO, SLA.`,
+    example: `Audyt Change: bez deployment log i approval nie zamykasz pass — nawet jeśli developer „pamięta”, że testował.`,
+    interviewAnswer: `Dobieram evidence do obszaru: access = ticket+approval+export; change = ticket+approval+test+PR+deploy; backup = raport+restore+RTO/RPO; AD = admini+MFA+review; incident = ticket+RCA+lessons; vendor = umowa+DPA+SOC2/ISO+SLA.`,
+    commonMistakes: [
+      'Jeden screenshot na wszystkie obszary.',
+      'Backup „successful” bez restore test.',
+      'Vendor bez DPA przy danych osobowych.',
+    ],
+    quiz: {
+      question: 'Minimalne mocne evidence dla Change Management to m.in.:',
+      options: [
+        'Tylko ustna deklaracja developera',
+        'Ticket, approval, test, PR, deployment log',
+        'Sam diagram architektury',
+        'Tylko polityka bez ticketów',
+      ],
+      correct: 1,
+      explain: 'Checklist Change ze ściągi — ślad procesu od ticketu do deploy.',
+    },
+  }),
 ];

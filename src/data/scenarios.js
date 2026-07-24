@@ -115,6 +115,48 @@ export const SCENARIOS = [
     bestIndex: 1,
     auditorLesson: 'Audytor ocenia skuteczność kontroli względem SLA i ryzyka; rekomenduje kompensację do czasu remediacji.',
   },
+  {
+    id: 'sc-teams-not-evidence',
+    topicKey: 'basics',
+    title: 'Czaty Teams jako „dowód” offboardingu',
+    situation: `W banku kontrola leaver. Klient daje zrzut Teams (bez daty): „HR napisał do IT” i mówi, że to wystarczy. Co robisz?`,
+    options: [
+      { text: 'Oznaczam pass — komunikacja HR→IT jest widoczna', verdict: 'bad', why: 'Screenshot bez daty/kontekstu to słabe evidence; nie widać disable, ticketu ani SLA.' },
+      { text: 'Proszę o mocne evidence (data HR, ticket, data disable, logi); Teams traktuję jako wskazówkę, nie dowód skuteczności', verdict: 'good', why: 'Ściąga: mocne = export/log/ticket/approval z timestampem; słabe = ustna deklaracja / screenshot bez kontekstu.' },
+      { text: 'Piszę finding „brak HR” bez dalszych próśb', verdict: 'mid', why: 'Za wcześnie — najpierw request list i próbka; może istnieć ticket poza czatem.' },
+      { text: 'Akceptuję, jeśli polityka nie wymaga ticketów', verdict: 'bad', why: 'Nawet przy słabej polityce audytor ocenia ryzyko unauthorized access i design/operating.' },
+    ],
+    bestIndex: 1,
+    auditorLesson: 'Evidence > deklaracje. Bez daty disable i logów nie potwierdzasz operating effectiveness offboardingu.',
+  },
+  {
+    id: 'sc-payments-no-mfa-admin',
+    topicKey: 'controls',
+    title: 'Admini płatności bez MFA',
+    situation: `Bank: administratorzy systemu płatności bez MFA. Klient: „Hasła są długie, to wystarczy.” Co robisz?`,
+    options: [
+      { text: 'Akceptuję — silne hasła = niski risk', verdict: 'bad', why: 'Ściąga banking: brak MFA adminów = high risk (przejęcie = pełna kontrola / fraud).' },
+      { text: 'Finding high: brak MFA na privileged; rekomenduję MFA + konta imienne + PAM/monitoring', verdict: 'good', why: 'Unauthorized access / privilege misuse; płatności = duży impact biznesowy.' },
+      { text: 'Tylko medium — kompensują silne hasła', verdict: 'mid', why: 'Kompensata możliwa do odnotowania, ale przy płatnościach severity zwykle high.' },
+      { text: 'Wymuszam natychmiastowy shutdown płatności', verdict: 'bad', why: 'Audytor rekomenduje i eskaluje — nie zatrzymuje operacji samodzielnie.' },
+    ],
+    bestIndex: 1,
+    auditorLesson: 'W banku brak MFA adminów przy płatnościach mapujesz na high: fraud, reputacja, zgodność.',
+  },
+  {
+    id: 'sc-shadow-ai-bank',
+    topicKey: 'ai',
+    title: 'Shadow AI w zespole kredytowym',
+    situation: `Analitycy wklejają dane klientów do publicznego ChatGPT „dla szybkości”. Brak polityki approved tools. Co robisz?`,
+    options: [
+      { text: 'Ignoruję — AI przyspiesza pracę', verdict: 'bad', why: 'Shadow AI: data leakage, brak ownera, brak walidacji outputu.' },
+      { text: 'Finding: shadow AI / data leakage; rekomenduję approved tools, klasyfikację danych, human review, logging, DPIA/vendor assessment', verdict: 'good', why: 'Kontrole AI Governance ze ściągi: approved tools, classification, redaction, human review, logging, access, DPIA, vendor.' },
+      { text: 'Zakazuję całego AI w banku bez analizy', verdict: 'mid', why: 'Lepsza allowlista i kontrola niż ślepy zakaz — decyzja klienta, Ty rekomendujesz ramy.' },
+      { text: 'Piszę tylko o RODO bez ryzyka AI', verdict: 'mid', why: 'RODO jest częścią, ale ściąga wymienia też hallucination, prompt injection, explainability.' },
+    ],
+    bestIndex: 1,
+    auditorLesson: 'AI wspiera, nie zastępuje odpowiedzialności — shadow AI = wyciek + brak governance.',
+  },
 ];
 
 export const SCENARIO_MAP = Object.fromEntries(SCENARIOS.map((s) => [s.id, s]));

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import {
   MessagesSquare, ArrowLeft, CheckCircle2, Star, ChevronRight, RotateCcw,
   Award, ListChecks, Sparkles, Target, Flame, Lightbulb,
@@ -32,7 +32,16 @@ export default function InterviewModule() {
     );
   }
   if (params.mode === 'run') {
-    return <InterviewRun queue={params.queue || []} startIndex={params.startIndex || 0} daily={!!params.daily} onExit={() => go(params.daily ? 'daily' : 'interview')} />;
+    return (
+      <InterviewRun
+        queue={params.queue || []}
+        startIndex={params.startIndex || 0}
+        daily={!!params.daily}
+        exam={!!params.exam}
+        examMinutes={params.examMinutes || 15}
+        onExit={() => go(params.exam ? 'exam' : params.daily ? 'daily' : 'interview')}
+      />
+    );
   }
   return <InterviewList />;
 }
@@ -95,7 +104,7 @@ function FilterChip({ active, onClick, children }) {
   return <button onClick={onClick} className={`chip border transition-colors ${active ? 'bg-accent/15 text-accent-soft border-accent/30' : 'bg-ink-700/50 text-slate-300 border-ink-600/60 hover:bg-ink-700'}`}>{children}</button>;
 }
 
-function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
+function InterviewRun({ queue, startIndex, onExit, missionMode, daily, exam, examMinutes }) {
   const { recordInterview, removeRetry, recordCombo, recordDaily } = useProgress();
   const [idx, setIdx] = useState(startIndex);
   const [selectedIds, setSelectedIds] = useState([]);
@@ -104,9 +113,25 @@ function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
   const [finished, setFinished] = useState(false);
   const [combo, setCombo] = useState(0);
   const [maxCombo, setMaxCombo] = useState(0);
+  const [secondsLeft, setSecondsLeft] = useState(() => (exam ? (examMinutes || 15) * 60 : null));
+  const timedOut = useRef(false);
 
   const q = INTERVIEW_QUESTIONS.find((x) => x.id === queue[idx]);
   const options = useMemo(() => (q ? buildAnswerOptions(q) : []), [q]);
+
+  useEffect(() => {
+    if (!exam || secondsLeft === null || finished) return undefined;
+    if (secondsLeft <= 0) {
+      if (!timedOut.current) {
+        timedOut.current = true;
+        sfx.wrong();
+        finishRun();
+      }
+      return undefined;
+    }
+    const t = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
+    return () => clearTimeout(t);
+  }, [exam, secondsLeft, finished]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const finishRun = () => {
     recordCombo(maxCombo);
@@ -119,6 +144,7 @@ function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
       missionMode.complete(3);
       return;
     }
+    if (exam) sfx.fanfare();
     setFinished(true);
   };
 
@@ -148,15 +174,35 @@ function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
     return () => clearTimeout(t);
   }, [result]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  if (!q) return <Card><EmptyState title="Brak pytań" icon={MessagesSquare} /><button onClick={onExit} className="btn-ghost mt-3">Wróć</button></Card>;
-  if (finished) return <RunSummary maxCombo={maxCombo} daily={daily} onExit={onExit} />;
+  if (!q && !finished) return <Card><EmptyState title="Brak pytań" icon={MessagesSquare} /><button onClick={onExit} className="btn-ghost mt-3">Wróć</button></Card>;
+  if (finished) {
+    return (
+      <RunSummary
+        maxCombo={maxCombo}
+        daily={daily}
+        exam={exam}
+        queue={queue}
+        timedOut={timedOut.current}
+        onExit={onExit}
+      />
+    );
+  }
 
   const a = accent(q.topicKey);
+  const mm = secondsLeft !== null ? Math.floor(secondsLeft / 60) : 0;
+  const ss = secondsLeft !== null ? secondsLeft % 60 : 0;
+  const timeUrgent = exam && secondsLeft !== null && secondsLeft < 60;
+
   return (
     <div className="space-y-4 animate-slidein">
       <div className="flex items-center justify-between gap-3">
-        <button onClick={onExit} className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200"><ArrowLeft className="h-4 w-4" /> {missionMode ? 'Wróć' : daily ? 'Przerwij' : 'Wyjdź'}</button>
+        <button onClick={onExit} className="inline-flex items-center gap-1.5 text-sm text-slate-400 hover:text-slate-200"><ArrowLeft className="h-4 w-4" /> {missionMode ? 'Wróć' : exam ? 'Przerwij egzamin' : daily ? 'Przerwij' : 'Wyjdź'}</button>
         <div className="flex items-center gap-3 text-xs text-slate-400">
+          {exam && secondsLeft !== null && (
+            <span className={`inline-flex items-center gap-1 font-semibold tabular-nums ${timeUrgent ? 'text-rose-400' : 'text-accent-soft'}`}>
+              <Target className="h-3.5 w-3.5" /> {mm}:{String(ss).padStart(2, '0')}
+            </span>
+          )}
           {combo >= 2 && <span className="inline-flex items-center gap-1 text-amber-400 font-semibold"><Flame className="h-3.5 w-3.5" /> x{combo}</span>}
           <span>{idx + 1} / {queue.length}</span>
         </div>
@@ -165,6 +211,7 @@ function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
 
       {missionMode && <MissionBanner mission={missionMode.mission} hint="Wybierz karty i leć — auto-dalej." />}
       {daily && <div className="card card-pad py-2 bg-gold/5 border-gold/20 text-sm text-slate-300">Wyzwanie dnia · {queue.length} pytań</div>}
+      {exam && <div className="card card-pad py-2 bg-accent/5 border-accent/20 text-sm text-slate-300">Exam mode · bez podpowiedzi · debrief na końcu</div>}
 
       <Card>
         <div className="flex items-center gap-2 mb-3">
@@ -174,9 +221,11 @@ function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
         <div className="font-medium text-slate-100 mb-4">{q.question}</div>
         <div className="flex items-center justify-between mb-2">
           <span className="label">Zbuduj odpowiedź</span>
-          <button onClick={() => setShowHint((v) => !v)} className="text-xs text-slate-400 hover:text-accent-soft inline-flex items-center gap-1"><Lightbulb className="h-3.5 w-3.5" /> {showHint ? 'Ukryj' : 'Podpowiedź'}</button>
+          {!exam && (
+            <button onClick={() => setShowHint((v) => !v)} className="text-xs text-slate-400 hover:text-accent-soft inline-flex items-center gap-1"><Lightbulb className="h-3.5 w-3.5" /> {showHint ? 'Ukryj' : 'Podpowiedź'}</button>
+          )}
         </div>
-        {showHint && !result && (
+        {showHint && !result && !exam && (
           <div className="mb-3 rounded-lg border border-amber-500/20 bg-amber-500/5 p-2 text-xs text-slate-300">
             Szukaj ok. <strong className="text-amber-400">{q.keyPoints.length}</strong> elementów w puli.
           </div>
@@ -197,7 +246,43 @@ function InterviewRun({ queue, startIndex, onExit, missionMode, daily }) {
   );
 }
 
-function RunSummary({ maxCombo, daily, onExit }) {
+function RunSummary({ maxCombo, daily, exam, queue, timedOut, onExit }) {
+  const questions = (queue || []).map((id) => INTERVIEW_QUESTIONS.find((q) => q.id === id)).filter(Boolean);
+
+  if (exam) {
+    return (
+      <div className="space-y-4 animate-slidein">
+        <SectionHeader
+          icon={Award}
+          title={timedOut ? 'Czas minął — debrief' : 'Egzamin ukończony'}
+          subtitle="Teraz możesz przejrzeć wzorcowe odpowiedzi (niedostępne w trakcie)."
+        />
+        {timedOut && (
+          <Card className="border-rose-500/30 bg-rose-500/5 text-sm text-rose-200">
+            Timer dobiegł końca. Poniżej idealne odpowiedzi do nauki.
+          </Card>
+        )}
+        {maxCombo >= 3 && <Card className="text-center text-amber-400 text-sm"><Flame className="inline h-4 w-4" /> Combo x{maxCombo}</Card>}
+        <div className="space-y-3">
+          {questions.map((q, i) => (
+            <Card key={q.id}>
+              <div className="text-xs text-slate-500 mb-1">Pytanie {i + 1}</div>
+              <div className="font-medium text-slate-100 mb-2">{q.question}</div>
+              <div className="text-xs font-semibold uppercase tracking-wider text-accent-soft mb-1">Idealna odpowiedź</div>
+              <p className="text-sm text-slate-300 leading-relaxed">{q.idealAnswer}</p>
+              {q.commonMistakes?.length > 0 && (
+                <ul className="mt-2 list-disc pl-4 text-xs text-slate-500 space-y-0.5">
+                  {q.commonMistakes.map((m) => <li key={m}>Unikaj: {m}</li>)}
+                </ul>
+              )}
+            </Card>
+          ))}
+        </div>
+        <button type="button" onClick={onExit} className="btn-primary"><RotateCcw className="h-4 w-4" /> Wróć do Exam</button>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-4 animate-slidein">
       <SectionHeader icon={daily ? Target : Award} title={daily ? 'Wyzwanie dnia ✓' : 'Gotowe!'} subtitle="Zawsze +XP — bez kar" />
