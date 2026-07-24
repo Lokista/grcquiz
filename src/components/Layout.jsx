@@ -4,7 +4,7 @@ import {
   Briefcase, Layers, Brain, ShieldCheck, Menu, X, Flame, Star, Zap,
   ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
   MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
-  Tags, MessageSquareQuote, Dices, ListOrdered,
+  Tags, MessageSquareQuote, Dices, ListOrdered, CalendarCheck2,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -12,6 +12,7 @@ import * as Sel from '../state/selectors.js';
 
 const NAV_ITEMS = [
   { view: 'quest', label: 'Mapa misji', icon: MapIcon, primary: true },
+  { view: 'dayplan', label: 'Day plan', icon: CalendarCheck2, primary: true },
   { view: 'mock', label: 'Mock 45 min', icon: Mic2, primary: true },
   { view: 'exam', label: 'Exam mode', icon: GraduationCap, primary: true },
   { view: 'endless', label: 'Endless Quiz', icon: Repeat, primary: true },
@@ -20,25 +21,45 @@ const NAV_ITEMS = [
   { view: 'stats', label: 'Statystyki', icon: BarChart3, primary: true },
 ];
 
-const FREE_ITEMS = [
-  { view: 'learn', label: 'Nauka', icon: BookOpen, desc: 'Lekcje + quiz' },
-  { view: 'interview', label: 'Rozmowa rekrutacyjna', icon: MessagesSquare, desc: 'Karty odpowiedzi' },
-  { view: 'prowords', label: 'Pro-słowa', icon: MessageCircle, desc: 'Zdania na rozmowę' },
-  { view: 'frameworks', label: 'Framework picker', icon: Library, desc: 'ISO/NIST/CIS/NIS2…' },
-  { view: 'severity', label: 'Severity calibrator', icon: Gauge, desc: 'High / Med / Low' },
-  { view: 'sod', label: 'SoD conflicts', icon: Split, desc: 'Macierz konfliktów ról' },
-  { view: 'evidence', label: 'Evidence walkthrough', icon: ScanSearch, desc: 'Czytaj artefakt' },
-  { view: 'controlmap', label: 'Control mapping', icon: GitBranchPlus, desc: 'Test + PBC do kontroli' },
-  { view: 'classify', label: 'Exception vs deficiency', icon: Tags, desc: 'Exception / Def / Obs / OK' },
-  { view: 'manager', label: 'Ton do managera', icon: MessageSquareQuote, desc: 'Soft / pro / harsh' },
-  { view: 'sampling', label: 'Sampling drill', icon: Dices, desc: 'Próba vs 100%' },
-  { view: 'timeline', label: 'Process timeline', icon: ListOrdered, desc: 'Kolejność + luka' },
-  { view: 'cheatsheet', label: 'Cheat sheet', icon: ScrollText, desc: '1-pager na rozmowę' },
-  { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
-  { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
-  { view: 'cases', label: 'Case study', icon: Briefcase, desc: 'Scenariusze audytowe' },
-  { view: 'flashcards', label: 'Fiszki', icon: Layers, desc: 'Pojęcia' },
-  { view: 'think', label: 'Myśl jak audytor', icon: Brain, desc: 'Wybierz reakcję' },
+/** Grouped free mode — mniej chaosu w menu (IA jak Coach playbook sections). */
+const FREE_GROUPS = [
+  {
+    id: 'rozmowa',
+    label: 'Rozmowa',
+    items: [
+      { view: 'weak', label: 'Weak-topic trainer', icon: Flame, desc: 'Słabe tematy ze stats' },
+      { view: 'interview', label: 'Rozmowa rekrutacyjna', icon: MessagesSquare, desc: 'Karty odpowiedzi' },
+      { view: 'prowords', label: 'Pro-słowa', icon: MessageCircle, desc: 'Zdania na rozmowę' },
+      { view: 'manager', label: 'Ton do managera', icon: MessageSquareQuote, desc: 'Soft / pro / harsh' },
+      { view: 'classify', label: 'Exception vs deficiency', icon: Tags, desc: 'Exception / Def / Obs / OK' },
+      { view: 'cheatsheet', label: 'Cheat sheet', icon: ScrollText, desc: '1-pager na rozmowę' },
+    ],
+  },
+  {
+    id: 'fieldwork',
+    label: 'Fieldwork',
+    items: [
+      { view: 'evidence', label: 'Evidence walkthrough', icon: ScanSearch, desc: 'Czytaj artefakt' },
+      { view: 'controlmap', label: 'Control mapping', icon: GitBranchPlus, desc: 'Test + PBC do kontroli' },
+      { view: 'sod', label: 'SoD conflicts', icon: Split, desc: 'Macierz konfliktów ról' },
+      { view: 'sampling', label: 'Sampling drill', icon: Dices, desc: 'Próba vs 100%' },
+      { view: 'timeline', label: 'Process timeline', icon: ListOrdered, desc: 'Kolejność + luka' },
+      { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
+      { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
+      { view: 'severity', label: 'Severity calibrator', icon: Gauge, desc: 'High / Med / Low' },
+    ],
+  },
+  {
+    id: 'nauka',
+    label: 'Nauka',
+    items: [
+      { view: 'learn', label: 'Nauka', icon: BookOpen, desc: 'Lekcje + quiz' },
+      { view: 'flashcards', label: 'Fiszki', icon: Layers, desc: 'Pojęcia' },
+      { view: 'cases', label: 'Case study', icon: Briefcase, desc: 'Scenariusze audytowe' },
+      { view: 'think', label: 'Myśl jak audytor', icon: Brain, desc: 'Wybierz reakcję' },
+      { view: 'frameworks', label: 'Framework picker', icon: Library, desc: 'ISO/NIST/CIS/NIS2…' },
+    ],
+  },
 ];
 
 function GameHUD() {
@@ -68,11 +89,35 @@ function GameHUD() {
   );
 }
 
+function FreeItemButton({ item, active, onClick }) {
+  const Icon = item.icon;
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`group flex items-start gap-3 rounded-lg px-3 py-2 text-left transition-colors ${
+        active ? 'bg-accent/15 text-accent-soft ring-1 ring-accent/30' : 'text-slate-300 hover:bg-ink-700/40 hover:text-slate-100'
+      }`}
+    >
+      <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${active ? 'text-accent-soft' : 'text-slate-400 group-hover:text-slate-200'}`} />
+      <div className="min-w-0">
+        <div className="text-sm font-medium leading-tight">{item.label}</div>
+        <div className="text-[10px] text-slate-500 leading-snug">{item.desc}</div>
+      </div>
+    </button>
+  );
+}
+
 export default function Layout({ children }) {
   const { view, go } = useNav();
   const { state: pstate } = useProgress();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [freeOpen, setFreeOpen] = useState(true);
+  const [openGroups, setOpenGroups] = useState({ rozmowa: true, fieldwork: true, nauka: false });
+
+  const toggleGroup = (id) => {
+    setOpenGroups((g) => ({ ...g, [id]: !g[id] }));
+  };
 
   const NavList = ({ onNavigate }) => (
     <nav className="flex flex-col gap-1">
@@ -82,6 +127,7 @@ export default function Layout({ children }) {
         return (
           <button
             key={item.view}
+            type="button"
             onClick={() => { go(item.view); onNavigate?.(); }}
             className={`group flex items-center gap-3 rounded-lg px-3 py-2.5 text-left transition-colors ${
               active ? 'bg-accent/15 text-accent-soft ring-1 ring-accent/30' : 'text-slate-300 hover:bg-ink-700/50 hover:text-slate-100'
@@ -95,6 +141,7 @@ export default function Layout({ children }) {
 
       <div className="mt-3 px-3">
         <button
+          type="button"
           onClick={() => setFreeOpen((v) => !v)}
           className="flex w-full items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-300"
         >
@@ -103,26 +150,31 @@ export default function Layout({ children }) {
         </button>
       </div>
       {freeOpen && (
-        <div className="flex flex-col gap-1">
-          {FREE_ITEMS.map((item) => {
-            const active = view === item.view;
-            const Icon = item.icon;
-            return (
+        <div className="flex flex-col gap-2">
+          {FREE_GROUPS.map((group) => (
+            <div key={group.id}>
               <button
-                key={item.view}
-                onClick={() => { go(item.view); onNavigate?.(); }}
-                className={`group flex items-start gap-3 rounded-lg px-3 py-2 text-left transition-colors ${
-                  active ? 'bg-accent/15 text-accent-soft ring-1 ring-accent/30' : 'text-slate-300 hover:bg-ink-700/40 hover:text-slate-100'
-                }`}
+                type="button"
+                onClick={() => toggleGroup(group.id)}
+                className="flex w-full items-center justify-between px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600 hover:text-slate-400"
               >
-                <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${active ? 'text-accent-soft' : 'text-slate-400 group-hover:text-slate-200'}`} />
-                <div className="min-w-0">
-                  <div className="text-sm font-medium leading-tight">{item.label}</div>
-                  <div className="text-[10px] text-slate-500 leading-snug">{item.desc}</div>
-                </div>
+                <span>{group.label}</span>
+                <ChevronDown className={`h-3 w-3 transition-transform ${openGroups[group.id] ? '' : '-rotate-90'}`} />
               </button>
-            );
-          })}
+              {openGroups[group.id] && (
+                <div className="flex flex-col gap-0.5">
+                  {group.items.map((item) => (
+                    <FreeItemButton
+                      key={item.view}
+                      item={item}
+                      active={view === item.view}
+                      onClick={() => { go(item.view); onNavigate?.(); }}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
       )}
     </nav>
@@ -149,13 +201,13 @@ export default function Layout({ children }) {
       </aside>
 
       <div className="lg:hidden fixed top-0 inset-x-0 z-30 flex items-center justify-between border-b border-ink-700/60 bg-ink-900/90 backdrop-blur px-4 py-3">
-        <button onClick={() => go('quest')} className="flex items-center gap-2">
+        <button type="button" onClick={() => go('quest')} className="flex items-center gap-2">
           <ShieldCheck className="h-5 w-5 text-accent-soft" />
           <span className="text-sm font-bold text-slate-100">Auditor Quest</span>
         </button>
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1 text-xs text-gold"><Star className="h-3.5 w-3.5" /> {Sel.totalStars(pstate)}</span>
-          <button onClick={() => setMobileOpen(true)} className="btn-ghost px-2 py-1.5" aria-label="Menu">
+          <button type="button" onClick={() => setMobileOpen(true)} className="btn-ghost px-2 py-1.5" aria-label="Menu">
             <Menu className="h-5 w-5" />
           </button>
         </div>
@@ -163,14 +215,14 @@ export default function Layout({ children }) {
 
       {mobileOpen && (
         <div className="lg:hidden fixed inset-0 z-40 flex">
-          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
+          <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} aria-hidden />
           <aside className="relative flex w-72 max-w-[80%] flex-col bg-ink-900 border-r border-ink-700/60 animate-slidein">
             <div className="flex items-center justify-between px-4 py-4 border-b border-ink-700/60">
               <div className="flex items-center gap-2">
                 <ShieldCheck className="h-5 w-5 text-accent-soft" />
                 <span className="text-sm font-bold text-slate-100">Auditor Quest</span>
               </div>
-              <button onClick={() => setMobileOpen(false)} className="btn-ghost px-2 py-1.5" aria-label="Zamknij">
+              <button type="button" onClick={() => setMobileOpen(false)} className="btn-ghost px-2 py-1.5" aria-label="Zamknij">
                 <X className="h-5 w-5" />
               </button>
             </div>
