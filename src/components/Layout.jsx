@@ -4,6 +4,7 @@ import {
   Briefcase, Layers, Brain, ShieldCheck, Menu, X, Flame, Star, Zap,
   ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
   MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
+  Tags, MessageSquareQuote,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -28,6 +29,8 @@ const FREE_ITEMS = [
   { view: 'sod', label: 'SoD conflicts', icon: Split, desc: 'Macierz konfliktów ról' },
   { view: 'evidence', label: 'Evidence walkthrough', icon: ScanSearch, desc: 'Czytaj artefakt' },
   { view: 'controlmap', label: 'Control mapping', icon: GitBranchPlus, desc: 'Test + PBC do kontroli' },
+  { view: 'classify', label: 'Exception vs deficiency', icon: Tags, desc: 'Exception / Def / Obs / OK' },
+  { view: 'manager', label: 'Ton do managera', icon: MessageSquareQuote, desc: 'Soft / pro / harsh' },
   { view: 'cheatsheet', label: 'Cheat sheet', icon: ScrollText, desc: '1-pager na rozmowę' },
   { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
   { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },

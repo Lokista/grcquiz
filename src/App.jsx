@@ -24,6 +24,8 @@ import CheatSheetModule from './modules/CheatSheetModule.jsx';
 import SodFinderModule from './modules/SodFinderModule.jsx';
 import EvidenceWalkthroughModule from './modules/EvidenceWalkthroughModule.jsx';
 import ControlMappingModule from './modules/ControlMappingModule.jsx';
+import ExceptionClassifierModule from './modules/ExceptionClassifierModule.jsx';
+import ManagerToneModule from './modules/ManagerToneModule.jsx';
 
 function Router() {
   const { view } = useNav();
@@ -49,6 +51,8 @@ function Router() {
     case 'sod': return <SodFinderModule />;
     case 'evidence': return <EvidenceWalkthroughModule />;
     case 'controlmap': return <ControlMappingModule />;
+    case 'classify': return <ExceptionClassifierModule />;
+    case 'manager': return <ManagerToneModule />;
     case 'quest':
     default: return <QuestMap />;
   }

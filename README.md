@@ -54,6 +54,8 @@ scenariusze Teams≠evidence / MFA płatności / Shadow AI.
 **SoD conflict finder** — zaznacz konflikty ról (płatności, Change, HR, Access).
 **Evidence walkthrough** — czytaj export/ticket/log: co dowodzi / czego brak / follow-up.
 **Control → test → evidence** — mapuj właściwe testy i PBC do kontroli ITGC.
+**Exception vs deficiency** — sklasyfikuj fakt (Exception / Deficiency / Observation / OK).
+**Ton do managera** — wybierz profesjonalną wypowiedź (nie soft, nie harsh).
 
 ## Uruchomienie
 
