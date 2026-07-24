@@ -62,6 +62,8 @@ scenariusze Teams≠evidence / MFA płatności / Shadow AI.
 **Weak-topic trainer** — drills pod najniższy mastery ze stats.
 **Finding triage** — raw notes → severity + next action (inbox ustaleń).
 **Policy vs practice** — kryterium vs evidence → design / OE / doc / OK.
+**Risk register mini** — inherent L×I → residual → treatment.
+**SoA applicability** — Include/Exclude + uzasadnienie (ISO 27001).
 
 ## Uruchomienie
 
