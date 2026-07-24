@@ -3,7 +3,7 @@ import {
   Map as MapIcon, Target, Trophy, BarChart3, BookOpen, MessagesSquare,
   Briefcase, Layers, Brain, ShieldCheck, Menu, X, Flame, Star, Zap,
   ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
-  MessageCircle, Library, Gauge, ScrollText, Split,
+  MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -26,6 +26,8 @@ const FREE_ITEMS = [
   { view: 'frameworks', label: 'Framework picker', icon: Library, desc: 'ISO/NIST/CIS/NIS2…' },
   { view: 'severity', label: 'Severity calibrator', icon: Gauge, desc: 'High / Med / Low' },
   { view: 'sod', label: 'SoD conflicts', icon: Split, desc: 'Macierz konfliktów ról' },
+  { view: 'evidence', label: 'Evidence walkthrough', icon: ScanSearch, desc: 'Czytaj artefakt' },
+  { view: 'controlmap', label: 'Control mapping', icon: GitBranchPlus, desc: 'Test + PBC do kontroli' },
   { view: 'cheatsheet', label: 'Cheat sheet', icon: ScrollText, desc: '1-pager na rozmowę' },
   { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
   { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
