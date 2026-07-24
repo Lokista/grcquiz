@@ -4,7 +4,7 @@ import {
   Briefcase, Layers, Brain, ShieldCheck, Menu, X, Flame, Star, Zap,
   ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
   MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
-  Tags, MessageSquareQuote, Dices, ListOrdered, CalendarCheck2,
+  Tags, MessageSquareQuote, Dices, ListOrdered, CalendarCheck2, Inbox, Scale,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -47,6 +47,8 @@ const FREE_GROUPS = [
       { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
       { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
       { view: 'severity', label: 'Severity calibrator', icon: Gauge, desc: 'High / Med / Low' },
+      { view: 'triage', label: 'Finding triage', icon: Inbox, desc: 'Severity + next action' },
+      { view: 'policy', label: 'Policy vs practice', icon: Scale, desc: 'Design / OE / doc gap' },
     ],
   },
   {

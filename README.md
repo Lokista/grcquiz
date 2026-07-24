@@ -60,6 +60,8 @@ scenariusze Teams≠evidence / MFA płatności / Shadow AI.
 **Process timeline** — ułóż JOML/Change/IR + wskaż lukę kontroli.
 **Interview day plan** — playbook „dziś rozmowa” (weak → fieldwork → mock → cheat sheet).
 **Weak-topic trainer** — drills pod najniższy mastery ze stats.
+**Finding triage** — raw notes → severity + next action (inbox ustaleń).
+**Policy vs practice** — kryterium vs evidence → design / OE / doc / OK.
 
 ## Uruchomienie
 
