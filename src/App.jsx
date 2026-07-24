@@ -35,6 +35,8 @@ const InterviewDayPlanModule = lazy(() => import('./modules/InterviewDayPlanModu
 const WeakTopicTrainerModule = lazy(() => import('./modules/WeakTopicTrainerModule.jsx'));
 const FindingTriageModule = lazy(() => import('./modules/FindingTriageModule.jsx'));
 const PolicyPracticeModule = lazy(() => import('./modules/PolicyPracticeModule.jsx'));
+const RiskRegisterModule = lazy(() => import('./modules/RiskRegisterModule.jsx'));
+const SoaApplicabilityModule = lazy(() => import('./modules/SoaApplicabilityModule.jsx'));
 
 function RouteFallback() {
   return (
@@ -79,6 +81,8 @@ function Router() {
     case 'weak': page = <WeakTopicTrainerModule />; break;
     case 'triage': page = <FindingTriageModule />; break;
     case 'policy': page = <PolicyPracticeModule />; break;
+    case 'risk': page = <RiskRegisterModule />; break;
+    case 'soa': page = <SoaApplicabilityModule />; break;
     case 'quest':
     default: page = <QuestMap />; break;
   }

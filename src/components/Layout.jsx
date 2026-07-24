@@ -5,6 +5,7 @@ import {
   ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
   MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
   Tags, MessageSquareQuote, Dices, ListOrdered, CalendarCheck2, Inbox, Scale,
+  ShieldAlert, FileCheck2,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -48,7 +49,6 @@ const FREE_GROUPS = [
       { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
       { view: 'severity', label: 'Severity calibrator', icon: Gauge, desc: 'High / Med / Low' },
       { view: 'triage', label: 'Finding triage', icon: Inbox, desc: 'Severity + next action' },
-      { view: 'policy', label: 'Policy vs practice', icon: Scale, desc: 'Design / OE / doc gap' },
     ],
   },
   {
@@ -59,7 +59,16 @@ const FREE_GROUPS = [
       { view: 'flashcards', label: 'Fiszki', icon: Layers, desc: 'Pojęcia' },
       { view: 'cases', label: 'Case study', icon: Briefcase, desc: 'Scenariusze audytowe' },
       { view: 'think', label: 'Myśl jak audytor', icon: Brain, desc: 'Wybierz reakcję' },
+    ],
+  },
+  {
+    id: 'governance',
+    label: 'GRC / ISMS',
+    items: [
+      { view: 'risk', label: 'Risk register mini', icon: ShieldAlert, desc: 'Inherent → residual' },
+      { view: 'soa', label: 'SoA applicability', icon: FileCheck2, desc: 'Include / Exclude' },
       { view: 'frameworks', label: 'Framework picker', icon: Library, desc: 'ISO/NIST/CIS/NIS2…' },
+      { view: 'policy', label: 'Policy vs practice', icon: Scale, desc: 'Design / OE / doc gap' },
     ],
   },
 ];
@@ -115,7 +124,9 @@ export default function Layout({ children }) {
   const { state: pstate } = useProgress();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [freeOpen, setFreeOpen] = useState(true);
-  const [openGroups, setOpenGroups] = useState({ rozmowa: true, fieldwork: true, nauka: false });
+  const [openGroups, setOpenGroups] = useState({
+    rozmowa: true, fieldwork: false, nauka: false, governance: true,
+  });
 
   const toggleGroup = (id) => {
     setOpenGroups((g) => ({ ...g, [id]: !g[id] }));
