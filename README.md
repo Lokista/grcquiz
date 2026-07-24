@@ -56,6 +56,8 @@ scenariusze Teams≠evidence / MFA płatności / Shadow AI.
 **Control → test → evidence** — mapuj właściwe testy i PBC do kontroli ITGC.
 **Exception vs deficiency** — sklasyfikuj fakt (Exception / Deficiency / Observation / OK).
 **Ton do managera** — wybierz profesjonalną wypowiedź (nie soft, nie harsh).
+**Sampling drill** — 100% vs próba, bias, rozszerzanie, populacja.
+**Process timeline** — ułóż JOML/Change/IR + wskaż lukę kontroli.
 
 ## Uruchomienie
 

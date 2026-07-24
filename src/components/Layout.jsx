@@ -4,7 +4,7 @@ import {
   Briefcase, Layers, Brain, ShieldCheck, Menu, X, Flame, Star, Zap,
   ChevronDown, Repeat, Mic2, FilePenLine, ClipboardList, GraduationCap,
   MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
-  Tags, MessageSquareQuote,
+  Tags, MessageSquareQuote, Dices, ListOrdered,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -31,6 +31,8 @@ const FREE_ITEMS = [
   { view: 'controlmap', label: 'Control mapping', icon: GitBranchPlus, desc: 'Test + PBC do kontroli' },
   { view: 'classify', label: 'Exception vs deficiency', icon: Tags, desc: 'Exception / Def / Obs / OK' },
   { view: 'manager', label: 'Ton do managera', icon: MessageSquareQuote, desc: 'Soft / pro / harsh' },
+  { view: 'sampling', label: 'Sampling drill', icon: Dices, desc: 'Próba vs 100%' },
+  { view: 'timeline', label: 'Process timeline', icon: ListOrdered, desc: 'Kolejność + luka' },
   { view: 'cheatsheet', label: 'Cheat sheet', icon: ScrollText, desc: '1-pager na rozmowę' },
   { view: 'blind', label: 'Blind finding', icon: FilePenLine, desc: 'Write-up z faktów' },
   { view: 'requestlist', label: 'Request list / PBC', icon: ClipboardList, desc: 'Checklisty evidence' },
