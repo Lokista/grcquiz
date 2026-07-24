@@ -26,6 +26,8 @@ import EvidenceWalkthroughModule from './modules/EvidenceWalkthroughModule.jsx';
 import ControlMappingModule from './modules/ControlMappingModule.jsx';
 import ExceptionClassifierModule from './modules/ExceptionClassifierModule.jsx';
 import ManagerToneModule from './modules/ManagerToneModule.jsx';
+import SamplingDrillModule from './modules/SamplingDrillModule.jsx';
+import ProcessTimelineModule from './modules/ProcessTimelineModule.jsx';
 
 function Router() {
   const { view } = useNav();
@@ -53,6 +55,8 @@ function Router() {
     case 'controlmap': return <ControlMappingModule />;
     case 'classify': return <ExceptionClassifierModule />;
     case 'manager': return <ManagerToneModule />;
+    case 'sampling': return <SamplingDrillModule />;
+    case 'timeline': return <ProcessTimelineModule />;
     case 'quest':
     default: return <QuestMap />;
   }

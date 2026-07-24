@@ -1,0 +1,136 @@
+/**
+ * Sampling drill — decyzje o próbie jak w fieldwork / rozmowie Big4.
+ */
+
+export const SAMPLING_CASES = [
+  {
+    id: 'sm-privileged',
+    scenario: 'Access review: 2 400 użytkowników, w tym 18 ról uprzywilejowanych (Domain Admin, SAP_ALL, break-glass).',
+    question: 'Jak podejść do testu privileged?',
+    options: [
+      { id: 'a', label: 'Losowa próba 25 z całej populacji 2 400 — wystarczy' },
+      { id: 'b', label: '100% privileged (18) + próba z residual / business users' },
+      { id: 'c', label: 'Tylko 5 „znanych adminów”, resztę pomiń' },
+      { id: 'd', label: 'Zero testu — skoro jest polityka MFA' },
+    ],
+    correct: 'b',
+    explain: 'Privileged = wysokie ryzyko → zwykle 100%. Reszta populacji osobną próbą. Self-selected „znani admini” = bias.',
+  },
+  {
+    id: 'sm-self-select',
+    scenario: 'Reviewer access review mówi: „Dam Wam 10 kont, które sam sprawdziłem dokładnie”.',
+    question: 'Co z tą próbą?',
+    options: [
+      { id: 'a', label: 'OK — management lepiej wie, co ważne' },
+      { id: 'b', label: 'To self-selected sample — nie reprezentuje populacji; bierz niezależną próbę / pełny export' },
+      { id: 'c', label: 'Wystarczy, jeśli dołączą screenshoty' },
+      { id: 'd', label: 'Zamień na 10 kont z LinkedIn firmy' },
+    ],
+    correct: 'b',
+    explain: 'Self-selected = klasyczny sampling bias. Audytor wybiera z populacji, nie z „ładnych przykładów” audytowanego.',
+  },
+  {
+    id: 'sm-extend',
+    scenario: 'Próba 25 change’y: 3 bez approval przed deploy (12%). Reszta czysta. Procedura wymaga approval 100%.',
+    question: 'Najlepszy następny krok?',
+    options: [
+      { id: 'a', label: 'Od razu Critical na całą firmę bez dalszych testów' },
+      { id: 'b', label: 'Zignoruj — 3 to mało' },
+      { id: 'c', label: 'Rozszerz próbę / zbadaj warstwę (emergency vs normal, zespoły) i oceń czy to izolat czy OE deficiency' },
+      { id: 'd', label: 'Poproś tylko o politykę change ponownie' },
+    ],
+    correct: 'c',
+    explain: 'Wyjście poza tolerancję → rozszerzenie / stratify, zanim podniesiesz severity na całą kontrolę.',
+  },
+  {
+    id: 'sm-attr-vs-monetary',
+    scenario: 'Testujesz, czy faktury >50k mają 2 approvale (tak/nie). Nie liczycie kwoty błędu finansowego.',
+    question: 'Jaki to typ testu / sampling mindset?',
+    options: [
+      { id: 'a', label: 'Monetary unit sampling (MUS) pod misstatement $' },
+      { id: 'b', label: 'Attribute sampling — odchylenie od atrybutu kontroli (pass/fail)' },
+      { id: 'c', label: 'Tylko analytical review' },
+      { id: 'd', label: 'Penetration testing' },
+    ],
+    correct: 'b',
+    explain: 'ITGC/kontrole „jest/nie ma approval” = atrybuty. MUS bardziej pod salda finansowe.',
+  },
+  {
+    id: 'sm-population',
+    scenario: 'Chcesz przetestować leaver deprovisioning za Q2.',
+    question: 'Skąd bierzesz populację?',
+    options: [
+      { id: 'a', label: 'Z pamięci HR Business Partnera (lista 8 osób „na pewno odeszły”)' },
+      { id: 'b', label: 'Kompletny extract HR/leaver tickets za okres + reconciliation z IdP disable dates' },
+      { id: 'c', label: 'Tylko osoby, które oddały laptopa' },
+      { id: 'd', label: 'Losowe konta z AD, które wyglądają na nieaktywne' },
+    ],
+    correct: 'b',
+    explain: 'Populacja = kompletne źródło za okres. Potem match do systemu dostępu. Anegdota HR ≠ population.',
+  },
+  {
+    id: 'sm-100-percent',
+    scenario: 'Emergency changes w roku: 11 sztuk. Normal changes: 900.',
+    question: 'Rozsądne podejście?',
+    options: [
+      { id: 'a', label: '100% emergency (mała, wysokie ryzyko) + próba z normal' },
+      { id: 'b', label: 'Jedna wspólna próba 25 z 911 bez rozróżnienia' },
+      { id: 'c', label: 'Tylko normal — emergency „nie liczy się”' },
+      { id: 'd', label: 'Pomiń change testing w ogóle' },
+    ],
+    correct: 'a',
+    explain: 'Stratyfikacja: mała/high-risk warstwa często 100%; duża warstwa — próba.',
+  },
+  {
+    id: 'sm-haphazard',
+    scenario: 'Junior bierze „pierwsze 25 wierszy z Excel posortowanego po nazwisku”.',
+    question: 'Ocena metody?',
+    options: [
+      { id: 'a', label: 'Idealny random' },
+      { id: 'b', label: 'Ryzyko bias (kolejność/alfabet); lepiej pseudolosowo / systematycznie z uzasadnieniem' },
+      { id: 'c', label: 'Zawsze lepsze niż 100%' },
+      { id: 'd', label: 'Wymagane przez ISO 27001' },
+    ],
+    correct: 'b',
+    explain: 'Haphazard/convenience sampling bywa akceptowane w IT audit z uzasadnieniem, ale alfabet „top 25” to słaby wybór.',
+  },
+  {
+    id: 'sm-zero-exceptions',
+    scenario: 'Próba 25: 0 wyjątków. Management: „kontrola działa w 100%, zamykamy temat”.',
+    question: 'Co odpowiesz?',
+    options: [
+      { id: 'a', label: 'Tak — 0/25 = pewność 100% na populację' },
+      { id: 'b', label: '0 wyjątków w próbie wspiera OE, ale nie daje absolutnej pewności; wniosek ograniczony do metody/ryzyka' },
+      { id: 'c', label: 'Musisz testować aż znajdziesz exception' },
+      { id: 'd', label: 'Trzeba od razu 100% zawsze' },
+    ],
+    correct: 'b',
+    explain: 'Sampling daje assurance, nie gwarancję. Na rozmowie unikaj „100% pewności”.',
+  },
+  {
+    id: 'sm-vendor',
+    scenario: '80 vendorów; 3 critical (payroll, IdP, cloud ERP), 12 high, reszta low.',
+    question: 'Sampling due diligence / SOC review?',
+    options: [
+      { id: 'a', label: 'Losowe 5 z 80 low-risk wystarczy na wszystko' },
+      { id: 'b', label: '100% critical (+ często high) + próba residual; focus na SOC exceptions i CUEC' },
+      { id: 'c', label: 'Tylko vendorzy z ładnym PDF na www' },
+      { id: 'd', label: 'Jeden vendor „reprezentatywny” na całość' },
+    ],
+    correct: 'b',
+    explain: 'Risk-based: critical coverage full; nie myl z wygodną próbką marketingowych PDF-ów.',
+  },
+  {
+    id: 'sm-period',
+    scenario: 'Audit period: 1 Jan–31 Dec. Dostałeś access review tylko z czerwca.',
+    question: 'Problem?',
+    options: [
+      { id: 'a', label: 'OK — jeden miesiąc reprezentuje rok' },
+      { id: 'b', label: 'Pokrycie okresu niepełne — potrzebujesz evidence za cały period / inne quarter reviews' },
+      { id: 'c', label: 'Wystarczy polityka roczna' },
+      { id: 'd', label: 'Wtedy testujesz tylko development' },
+    ],
+    correct: 'b',
+    explain: 'Operating effectiveness = przez okres. Jednorazowy snapshot ≠ coverage całego period.',
+  },
+];
