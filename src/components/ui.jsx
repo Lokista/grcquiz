@@ -102,7 +102,7 @@ export function StatTile({ icon: Icon, label, value, sub, tone = 'accent' }) {
       <div className="min-w-0">
         <div className="text-2xl font-bold text-slate-100 leading-tight">{value}</div>
         <div className="text-xs text-slate-400">{label}</div>
-        {sub && <div className="text-[11px] text-slate-500 mt-0.5">{sub}</div>}
+        {sub && <div className="text-[0.6875rem] text-slate-500 mt-0.5">{sub}</div>}
       </div>
     </Card>
   );

@@ -154,7 +154,7 @@ function CaseRun({ caseStudy: cs, onExit, missionMode }) {
         <div className="flex items-center gap-2 mb-3">
           <Pill tone="accent">{q.points} pkt</Pill>
           <Pill tone="neutral">{isMulti ? 'Wielokrotnego wyboru' : 'Pojedynczego wyboru'}</Pill>
-          {isMulti && <span className="text-[11px] text-slate-500">zaznacz wszystkie pasujące</span>}
+          {isMulti && <span className="text-[0.6875rem] text-slate-500">zaznacz wszystkie pasujące</span>}
         </div>
         <div className="font-semibold text-slate-100 mb-4">{q.prompt}</div>
         <div className="space-y-2">
@@ -194,7 +194,7 @@ function MissionBanner({ mission, hint }) {
     <div className="card card-pad bg-gold/5 border-gold/20 flex items-center gap-3">
       <div className="grid h-10 w-10 place-items-center rounded-lg bg-gold/15 text-gold shrink-0"><Target className="h-5 w-5" /></div>
       <div className="min-w-0">
-        <div className="text-[11px] uppercase tracking-wider text-gold">Misja — Boss</div>
+        <div className="text-[0.6875rem] uppercase tracking-wider text-gold">Misja — Boss</div>
         <div className="font-semibold text-slate-100 truncate">{mission.title}</div>
         <div className="text-xs text-slate-400">{hint}</div>
       </div>

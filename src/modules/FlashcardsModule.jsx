@@ -164,7 +164,7 @@ function FlashcardRun({ queue, onExit, missionMode }) {
         <button onClick={() => mark('unknown')} className="btn-ghost text-slate-300 border-ink-600/60 hover:bg-ink-700/60"><X className="h-4 w-4" /> Jeszcze uczę</button>
         <button onClick={() => mark('known')} className="btn-ghost text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/10"><Check className="h-4 w-4" /> Znam</button>
       </div>
-      <p className="text-center text-[11px] text-slate-500">Najpierw odpowiedz sobie w głowie, potem odwróć i oceń.</p>
+      <p className="text-center text-[0.6875rem] text-slate-500">Najpierw odpowiedz sobie w głowie, potem odwróć i oceń.</p>
     </div>
   );
 }
@@ -174,7 +174,7 @@ function MissionBanner({ mission, hint }) {
     <div className="card card-pad bg-gold/5 border-gold/20 flex items-center gap-3">
       <div className="grid h-10 w-10 place-items-center rounded-lg bg-gold/15 text-gold shrink-0"><Target className="h-5 w-5" /></div>
       <div className="min-w-0">
-        <div className="text-[11px] uppercase tracking-wider text-gold">Misja</div>
+        <div className="text-[0.6875rem] uppercase tracking-wider text-gold">Misja</div>
         <div className="font-semibold text-slate-100 truncate">{mission.title}</div>
         <div className="text-xs text-slate-400">{hint}</div>
       </div>

@@ -53,7 +53,7 @@ export default function ProgressModule() {
               <span className="font-semibold text-slate-200">{info.toNext} XP</span>
             </div>
             <ProgressBar value={info.intoLevel} max={info.span} />
-            <div className="mt-1.5 text-[11px] text-slate-500">{Math.round(info.pct * 100)}% aktualnego poziomu</div>
+            <div className="mt-1.5 text-[0.6875rem] text-slate-500">{Math.round(info.pct * 100)}% aktualnego poziomu</div>
           </div>
         </div>
       </Card>
@@ -91,7 +91,7 @@ export default function ProgressModule() {
                   <Pill tone="good">{Math.round(m * 100)}%</Pill>
                 </div>
                 <ProgressBar value={m} barClass="xp-bar" />
-                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-slate-500">
+                <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-[0.6875rem] text-slate-500">
                   <span>Lekcje: <span className="text-slate-300">{lessonsDone}/{lessonsTotal}</span></span>
                   {tk.quizTotal > 0 && <span>Quizy: <span className="text-slate-300">{tk.quizCorrect}/{tk.quizTotal}</span></span>}
                   {fcIds.length > 0 && <span>Fiszki: <span className="text-slate-300">{fcKnown}/{fcIds.length}</span></span>}
@@ -135,8 +135,8 @@ function Stat({ icon: Icon, label, value, sub, tone = 'neutral' }) {
         <Icon className="h-4 w-4" />
       </div>
       <div className="text-lg font-bold text-slate-100 leading-tight">{value}</div>
-      <div className="text-[11px] text-slate-400">{label}</div>
-      {sub && <div className="text-[10px] text-slate-500">{sub}</div>}
+      <div className="text-[0.6875rem] text-slate-400">{label}</div>
+      {sub && <div className="text-[0.625rem] text-slate-500">{sub}</div>}
     </Card>
   );
 }

@@ -5,7 +5,7 @@
 | Ścieżka | Dla kogo | Co w środku |
 |---|---|---|
 | **IT Audyt i GRC** | Junior IT Auditor / GRC Analyst (styl Big4) | mapa misji, lekcje, case study, Mock 45 min, Exam mode, Endless Quiz, drille fieldwork |
-| **Bezpieczeństwo IT — sektor publiczny** | specjalista ds. bezpieczeństwa IT w jednostce publicznej | 13 kolejek (350 zadań), Giga Quiz, egzamin na czas, powtórka błędów |
+| **Bezpieczeństwo IT — sektor publiczny** | specjalista ds. bezpieczeństwa IT w jednostce publicznej | 15 kolejek (621 zadań), Giga Quiz, egzamin na czas, powtórka błędów |
 
 Każda ścieżka ma własne menu i własny postęp. Ścieżkę zmieniasz w menu w każdej chwili.
 

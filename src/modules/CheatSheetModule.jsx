@@ -90,7 +90,7 @@ export default function CheatSheetModule() {
             </button>
           </div>
         </div>
-        <pre className="max-h-[28rem] overflow-auto rounded-lg border border-ink-600/60 bg-ink-950/60 p-3 text-[11px] text-slate-300 whitespace-pre-wrap font-mono">
+        <pre className="max-h-[28rem] overflow-auto rounded-lg border border-ink-600/60 bg-ink-950/60 p-3 text-[0.6875rem] text-slate-300 whitespace-pre-wrap font-mono">
           {text}
         </pre>
       </Card>

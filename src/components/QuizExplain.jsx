@@ -20,7 +20,7 @@ export default function QuizExplain({ explain, className = '' }) {
       {sections.map((s, i) => (
         <div key={i}>
           {s.label && (
-            <div className="text-[11px] font-semibold uppercase tracking-wide text-slate-500 mb-0.5">
+            <div className="text-[0.6875rem] font-semibold uppercase tracking-wide text-slate-500 mb-0.5">
               {s.label}
             </div>
           )}

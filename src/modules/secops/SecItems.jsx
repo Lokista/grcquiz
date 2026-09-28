@@ -34,7 +34,7 @@ function useNumberKeys(count, onPick, enabled) {
   }, [count, enabled]);
 }
 
-const optBase = 'flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left text-[15px] leading-snug transition-colors disabled:cursor-default';
+const optBase = 'flex w-full items-start gap-3 rounded-xl border px-4 py-3 text-left text-[0.9375rem] leading-snug transition-colors disabled:cursor-default';
 function optTone(state) {
   if (state === 'ok') return 'border-emerald-500/70 bg-emerald-500/15 text-slate-100';
   if (state === 'no') return 'border-rose-500/70 bg-rose-500/15 text-slate-100';

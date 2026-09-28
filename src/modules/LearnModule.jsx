@@ -97,7 +97,7 @@ function LessonList({ initialTopic }) {
                       <div className="font-semibold text-slate-100 group-hover:text-accent-soft transition-colors">{l.title}</div>
                       {done ? <CheckCircle2 className="h-5 w-5 text-emerald-400 shrink-0" /> : <Circle className="h-5 w-5 text-slate-600 shrink-0" />}
                     </div>
-                    <div className="mt-1.5 flex items-center gap-2 text-[11px] text-slate-500"><Clock className="h-3 w-3" /> ~{l.minutes} min<span className="text-slate-600">·</span><span>quiz → materiał</span></div>
+                    <div className="mt-1.5 flex items-center gap-2 text-[0.6875rem] text-slate-500"><Clock className="h-3 w-3" /> ~{l.minutes} min<span className="text-slate-600">·</span><span>quiz → materiał</span></div>
                   </button>
                 );
               })}
@@ -242,7 +242,7 @@ function MissionBanner({ mission, hint }) {
         <Target className="h-5 w-5" />
       </div>
       <div className="min-w-0">
-        <div className="text-[11px] uppercase tracking-wider text-gold">Misja</div>
+        <div className="text-[0.6875rem] uppercase tracking-wider text-gold">Misja</div>
         <div className="font-semibold text-slate-100 truncate">{mission.title}</div>
         <div className="text-xs text-slate-400">{hint}</div>
       </div>

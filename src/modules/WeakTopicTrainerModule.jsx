@@ -61,7 +61,7 @@ export default function WeakTopicTrainerModule() {
               </div>
               <ProgressBar value={w.mastery} barClass="xp-bar" />
               {row && (
-                <div className="mt-1.5 text-[11px] text-slate-500">
+                <div className="mt-1.5 text-[0.6875rem] text-slate-500">
                   Lekcje
                   {' '}
                   {row.lessonsDone}
@@ -78,7 +78,7 @@ export default function WeakTopicTrainerModule() {
                     onClick={() => go(d.view, d.params || {})}
                   >
                     {d.label}
-                    <span className="text-[10px] opacity-70">
+                    <span className="text-[0.625rem] opacity-70">
                       ~
                       {d.minutes}
                       m

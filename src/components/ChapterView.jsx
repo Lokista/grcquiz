@@ -70,7 +70,7 @@ export default function ChapterView() {
                     </div>
                     <div className="min-w-0 flex-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-[11px] text-slate-500">Misja {i + 1}</span>
+                        <span className="text-[0.6875rem] text-slate-500">Misja {i + 1}</span>
                         {isBoss && <Pill tone="bad">{mission.type === 'exam' ? 'Egzamin' : 'Boss'}</Pill>}
                         {st === 3 && <Pill tone="gold"><Star className="h-3 w-3 fill-gold" /> Perfekcyjnie</Pill>}
                       </div>

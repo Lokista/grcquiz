@@ -61,6 +61,8 @@ export function starsFor(pct) {
 
 export function stageUnlocked(state, index) {
   if (state.open || index === 0) return true;
+  // kolejka, w której już grano, zostaje otwarta (np. po dodaniu nowych kolejek przed nią)
+  if (state.stages[SEC_STAGES[index].id]) return true;
   return (state.stages[SEC_STAGES[index - 1].id]?.stars || 0) >= 1;
 }
 

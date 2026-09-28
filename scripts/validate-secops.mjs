@@ -46,8 +46,11 @@ for (const f of files) {
   const choice = s.items.filter((it) => (it.t === 'abcd' || it.t === 'fill') && Array.isArray(it.o) && it.o.length === 4);
   const longest = choice.filter((it) => it.o[it.a].length >= Math.max(...it.o.map((o) => o.length))).length;
   const share = choice.length ? longest / choice.length : 0;
+  const shortest = choice.filter((it) => it.o[it.a].length <= Math.min(...it.o.map((o) => o.length))).length;
+  const shareShort = choice.length ? shortest / choice.length : 0;
   const types = s.items.reduce((m, it) => ((m[it.t] = (m[it.t] || 0) + 1), m), {});
   console.log(`• ${s.id}: ${s.items.length} zadań ${JSON.stringify(types)} · poprawna=najdłuższa w ${Math.round(share * 100)}% ABCD/fill`);
+  if (choice.length >= 8 && shareShort > 0.5) err(f, '-', `poprawna odpowiedź jest najkrótsza w ${Math.round(shareShort * 100)}% pytań — wyrównaj długości dystraktorów`);
   if (choice.length >= 8 && share > 0.5) err(f, '-', `poprawna odpowiedź jest najdłuższa w ${Math.round(share * 100)}% pytań — wyrównaj długości dystraktorów`);
 }
 console.log(errors ? `\n${errors} błędów w ${total} zadaniach` : `\nOK: ${total} zadań`);

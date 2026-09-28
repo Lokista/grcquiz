@@ -198,8 +198,8 @@ export default function SecopsPlay({ mode, stageId }) {
 
       <div ref={cardRef} className="card card-pad animate-pop" key={`${item.id}-${i}`}>
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-accent-soft">{KIND_LABEL[item.t]}</span>
-          <span className="flex items-center gap-2 text-[11px] text-slate-500">
+          <span className="text-[0.6875rem] font-bold uppercase tracking-wider text-accent-soft">{KIND_LABEL[item.t]}</span>
+          <span className="flex items-center gap-2 text-[0.6875rem] text-slate-500">
             {st && <span className={`rounded px-1.5 font-bold ${TIER_INFO[st.tier].chip}`}>{st.tier}</span>}
             <span>{st?.name}</span>
             <span className="font-mono">{isGiga ? `#${i + 1}` : `${i + 1}/${total}`}</span>
@@ -225,7 +225,7 @@ export default function SecopsPlay({ mode, stageId }) {
           </div>
         )}
       </div>
-      {!answered && !isExam && <p className="text-center text-[11px] text-slate-600">Klawisze 1–4 wybierają odpowiedź, Enter przechodzi dalej.</p>}
+      {!answered && !isExam && <p className="text-center text-[0.6875rem] text-slate-600">Klawisze 1–4 wybierają odpowiedź, Enter przechodzi dalej.</p>}
     </div>
   );
 }
@@ -257,9 +257,9 @@ function Result({ session, finished, results, xpGained, bestCombo, isGiga, isExa
         </h2>
         <p className="mt-1 text-sm text-slate-400">{msg}</p>
         <div className="mt-4 grid grid-cols-3 gap-2">
-          <div className="rounded-xl border border-ink-700/70 bg-ink-900/50 p-3"><div className="text-xl font-bold text-slate-100">{pct}%</div><div className="text-[11px] text-slate-500">trafność</div></div>
-          <div className="rounded-xl border border-ink-700/70 bg-ink-900/50 p-3"><div className="text-xl font-bold text-accent-soft">+{xpGained + (finished.bonus || 0)}</div><div className="text-[11px] text-slate-500">XP{finished.bonus ? ` (bonus ${finished.bonus})` : ''}</div></div>
-          <div className="rounded-xl border border-ink-700/70 bg-ink-900/50 p-3"><div className="text-xl font-bold text-gold">{isGiga ? results.length : bestCombo}</div><div className="text-[11px] text-slate-500">{isGiga ? 'zadań' : 'najdłuższa seria'}</div></div>
+          <div className="rounded-xl border border-ink-700/70 bg-ink-900/50 p-3"><div className="text-xl font-bold text-slate-100">{pct}%</div><div className="text-[0.6875rem] text-slate-500">trafność</div></div>
+          <div className="rounded-xl border border-ink-700/70 bg-ink-900/50 p-3"><div className="text-xl font-bold text-accent-soft">+{xpGained + (finished.bonus || 0)}</div><div className="text-[0.6875rem] text-slate-500">XP{finished.bonus ? ` (bonus ${finished.bonus})` : ''}</div></div>
+          <div className="rounded-xl border border-ink-700/70 bg-ink-900/50 p-3"><div className="text-xl font-bold text-gold">{isGiga ? results.length : bestCombo}</div><div className="text-[0.6875rem] text-slate-500">{isGiga ? 'zadań' : 'najdłuższa seria'}</div></div>
         </div>
         <div className="mt-5 flex flex-wrap justify-center gap-2">
           <button type="button" className="btn-ghost" onClick={again}>Jeszcze raz</button>

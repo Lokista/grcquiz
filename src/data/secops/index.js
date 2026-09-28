@@ -1,5 +1,7 @@
 // Ścieżka „Bezpieczeństwo IT — sektor publiczny”: etapy (kolejki) w kolejności nauki.
 // Każdy etap to osobny plik z zadaniami. Walidacja: node scripts/validate-secops.mjs
+import podstawy from './podstawy.js';
+import narzedzia from './narzedzia.js';
 import incydenty from './incydenty.js';
 import ksc from './ksc.js';
 import podatnosci from './podatnosci.js';
@@ -14,7 +16,7 @@ import architektura from './architektura.js';
 import ludzie from './ludzie.js';
 import dfir from './dfir.js';
 
-export const SEC_STAGES = [incydenty, ksc, podatnosci, edr, rozmowa, logi, szbi, ryzyko, dokumenty, owasp, architektura, ludzie, dfir];
+export const SEC_STAGES = [podstawy, narzedzia, incydenty, ksc, podatnosci, edr, rozmowa, logi, szbi, ryzyko, dokumenty, owasp, architektura, ludzie, dfir];
 
 /** Wszystkie zadania z unikalnym id `<etap>-<nr>` i odnośnikiem do etapu. */
 export const SEC_ITEMS = {};

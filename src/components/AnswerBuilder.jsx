@@ -64,7 +64,7 @@ export default function AnswerBuilder({ options, selectedIds, onChange, disabled
       >
         <div className="flex items-center justify-between gap-2 mb-2">
           <span className="text-xs font-semibold uppercase tracking-wider text-accent-soft">Twoja odpowiedź</span>
-          <span className="text-[11px] text-slate-500 inline-flex items-center gap-1">
+          <span className="text-[0.6875rem] text-slate-500 inline-flex items-center gap-1">
             <MousePointerClick className="h-3 w-3" /> klik lub <GripVertical className="h-3 w-3" /> przeciągnij
           </span>
         </div>

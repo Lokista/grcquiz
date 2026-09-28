@@ -79,7 +79,7 @@ export default function RequestListModule() {
                   />
                   <label htmlFor={`rl-${a.id}`} className="min-w-0 flex-1 cursor-pointer">
                     <div className="font-semibold text-sm text-slate-100">{a.label}</div>
-                    <div className="text-[11px] text-slate-500">{a.blurb}</div>
+                    <div className="text-[0.6875rem] text-slate-500">{a.blurb}</div>
                   </label>
                   <button
                     type="button"
@@ -139,7 +139,7 @@ export default function RequestListModule() {
             {copied ? 'Skopiowano' : 'Kopiuj listę'}
           </button>
         </div>
-        <pre className="max-h-80 overflow-auto rounded-lg border border-ink-600/60 bg-ink-950/60 p-3 text-[11px] text-slate-300 whitespace-pre-wrap font-mono">
+        <pre className="max-h-80 overflow-auto rounded-lg border border-ink-600/60 bg-ink-950/60 p-3 text-[0.6875rem] text-slate-300 whitespace-pre-wrap font-mono">
           {selected.length === 0 ? 'Zaznacz co najmniej jeden obszar.' : text}
         </pre>
       </Card>

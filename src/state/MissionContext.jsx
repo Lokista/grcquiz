@@ -133,7 +133,7 @@ function MissionCompleteOverlay({ data, onClose, onRerun, onNext, onMap }) {
               <button onClick={onNext} className="btn-primary">
                 Następna misja <ArrowRight className="h-4 w-4" />
               </button>
-              <p className="text-[11px] text-slate-500">Auto-przejście za chwilę…</p>
+              <p className="text-[0.6875rem] text-slate-500">Auto-przejście za chwilę…</p>
             </>
           )}
           {next && !nextUnlocked && (

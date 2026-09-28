@@ -100,7 +100,7 @@ export default function FrameworkPickerModule() {
             {FRAMEWORKS.map((f) => (
               <div key={f.id} className="rounded-lg border border-ink-600/60 bg-ink-900/40 p-2.5">
                 <div className="text-sm font-semibold text-slate-100">{f.label}</div>
-                <div className="text-[11px] text-slate-500 mt-0.5">{f.oneLiner}</div>
+                <div className="text-[0.6875rem] text-slate-500 mt-0.5">{f.oneLiner}</div>
               </div>
             ))}
           </div>
@@ -174,7 +174,7 @@ export default function FrameworkPickerModule() {
                   {revealed && primary.has(f.id) && <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />}
                   {revealed && !primary.has(f.id) && on && <XCircle className="h-4 w-4 text-rose-400 shrink-0" />}
                 </div>
-                <div className="text-[11px] text-slate-500 mt-1">{f.oneLiner}</div>
+                <div className="text-[0.6875rem] text-slate-500 mt-1">{f.oneLiner}</div>
                 {revealed && cs.explain[f.id] && (
                   <div className="mt-2 text-xs text-slate-400 flex gap-1">
                     <Lightbulb className="h-3 w-3 text-accent-soft shrink-0 mt-0.5" />

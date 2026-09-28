@@ -154,7 +154,7 @@ export default function EndlessQuizModule() {
             <typeMeta.icon className="h-3 w-3" /> {typeMeta.label}
           </Pill>
           <TopicBadge topicKey={current.topicKey} />
-          <span className="text-[11px] text-slate-500 truncate ml-auto">{current.title}</span>
+          <span className="text-[0.6875rem] text-slate-500 truncate ml-auto">{current.title}</span>
         </div>
 
         <div className="font-semibold text-lg text-slate-100 mb-4 leading-snug">{current.question}</div>
@@ -249,10 +249,10 @@ export default function EndlessQuizModule() {
       </Card>
 
       {!revealed && qType === 'choice' && (
-        <p className="text-center text-[11px] text-slate-500">Klawisze 1–4 · po odpowiedzi Spacja = wstrzymaj / dalej</p>
+        <p className="text-center text-[0.6875rem] text-slate-500">Klawisze 1–4 · po odpowiedzi Spacja = wstrzymaj / dalej</p>
       )}
       {!revealed && qType !== 'choice' && (
-        <p className="text-center text-[11px] text-slate-500">Ukończ zadanie · potem Spacja = wstrzymaj wyjaśnienie</p>
+        <p className="text-center text-[0.6875rem] text-slate-500">Ukończ zadanie · potem Spacja = wstrzymaj wyjaśnienie</p>
       )}
     </div>
   );

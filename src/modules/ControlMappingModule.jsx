@@ -25,7 +25,7 @@ function PoolButton({ item, active, revealed, isCorrect, onClick, kind }) {
         {revealed && isCorrect && <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />}
         {revealed && active && !isCorrect && <XCircle className="h-4 w-4 mt-0.5 shrink-0" />}
         <span>
-          <span className="text-[10px] uppercase tracking-wide text-slate-500 mr-1.5">{kind}</span>
+          <span className="text-[0.625rem] uppercase tracking-wide text-slate-500 mr-1.5">{kind}</span>
           {item.label}
         </span>
       </span>
@@ -150,7 +150,7 @@ export default function ControlMappingModule() {
       <SectionHeader icon={GitBranchPlus} title={item.title} subtitle={item.domain} />
 
       <Card>
-        <div className="text-[11px] uppercase tracking-wide text-slate-500 mb-1">Kontrola</div>
+        <div className="text-[0.6875rem] uppercase tracking-wide text-slate-500 mb-1">Kontrola</div>
         <p className="text-sm text-slate-100">{item.control.label}</p>
         <p className="mt-2 text-xs text-slate-500">Zaznacz wszystkie właściwe testy i evidence (klik = toggle).</p>
       </Card>

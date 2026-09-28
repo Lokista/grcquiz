@@ -24,7 +24,7 @@ function ModeTile({ icon: Icon, title, desc, meta, onClick, disabled, tone }) {
       className={`group flex flex-col gap-1.5 rounded-xl border bg-gradient-to-br p-4 text-left transition-colors disabled:cursor-not-allowed disabled:opacity-45 ${tones[tone]}`}>
       <div className="flex items-center justify-between gap-2">
         <Icon className="h-5 w-5 text-slate-100" />
-        {meta && <span className="font-mono text-[11px] text-slate-400">{meta}</span>}
+        {meta && <span className="font-mono text-[0.6875rem] text-slate-400">{meta}</span>}
       </div>
       <div className="text-base font-bold text-slate-100">{title}</div>
       <div className="text-xs leading-snug text-slate-400">{desc}</div>
@@ -46,7 +46,7 @@ export default function SecopsHome() {
           <div className="flex items-center gap-3">
             <div className="relative grid h-12 w-12 place-items-center rounded-xl bg-rose-500/15 text-rose-300 ring-1 ring-rose-500/30">
               <ShieldHalf className="h-6 w-6" />
-              <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-gold text-[11px] font-extrabold text-ink-950 ring-2 ring-ink-850">{rank.level}</span>
+              <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-gold text-[0.6875rem] font-extrabold text-ink-950 ring-2 ring-ink-850">{rank.level}</span>
             </div>
             <div>
               <div className="label">Bezpieczeństwo IT · sektor publiczny</div>
@@ -81,7 +81,7 @@ export default function SecopsHome() {
             <h2 className="section-title">Kolejki</h2>
             <p className="text-xs text-slate-400">Kolor to szansa, że temat padnie na rozmowie. Gwiazdka otwiera następną kolejkę.</p>
           </div>
-          <div className="flex flex-wrap gap-2 text-[11px] text-slate-400">
+          <div className="flex flex-wrap gap-2 text-[0.6875rem] text-slate-400">
             {['S', 'A', 'B', 'C'].map((t) => (
               <span key={t} className="inline-flex items-center gap-1"><span className={`rounded px-1.5 font-bold ${TIER_INFO[t].chip}`}>{t}</span>{TIER_INFO[t].label}</span>
             ))}
@@ -98,8 +98,8 @@ export default function SecopsHome() {
                 } ${s.boss ? 'ring-1 ring-gold/40' : ''}`}>
                 <span className={`absolute inset-y-3 left-0 w-1.5 rounded-r ${TIER_INFO[s.tier].bar}`} />
                 <div className="flex items-center justify-between gap-2">
-                  <span className="font-mono text-[11px] tracking-wide text-slate-500">{s.code} · {Math.min(s.boss ? 7 : 8, s.items.length)} z {s.items.length}</span>
-                  <span className={`rounded px-1.5 text-[11px] font-bold ${TIER_INFO[s.tier].chip}`}>{s.tier}</span>
+                  <span className="font-mono text-[0.6875rem] tracking-wide text-slate-500">{s.code} · {Math.min(s.boss ? 7 : 8, s.items.length)} z {s.items.length}</span>
+                  <span className={`rounded px-1.5 text-[0.6875rem] font-bold ${TIER_INFO[s.tier].chip}`}>{s.tier}</span>
                 </div>
                 <div className="mt-1.5 flex items-center gap-1.5 text-base font-semibold text-slate-100">
                   {s.boss && <Trophy className="h-4 w-4 text-gold" />}{s.name}

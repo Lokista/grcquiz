@@ -191,7 +191,7 @@ function MiniStat({ label, value, tone = 'neutral' }) {
   return (
     <div className="rounded-lg border border-ink-700/60 bg-ink-900/40 p-3 text-center">
       <div className={`text-xl font-bold ${tones[tone]}`}>{value}</div>
-      <div className="text-[11px] text-slate-400 mt-0.5">{label}</div>
+      <div className="text-[0.6875rem] text-slate-400 mt-0.5">{label}</div>
     </div>
   );
 }

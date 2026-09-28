@@ -34,8 +34,8 @@ function TrackSwitch({ onNavigate }) {
   return (
     <div className="mb-3">
       <div className="mb-1.5 flex items-center justify-between px-1">
-        <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500">Ścieżka</span>
-        <button type="button" onClick={() => { go('tracks'); onNavigate?.(); }} className="inline-flex items-center gap-1 text-[10px] text-slate-500 hover:text-slate-300">
+        <span className="text-[0.625rem] font-semibold uppercase tracking-wider text-slate-500">Ścieżka</span>
+        <button type="button" onClick={() => { go('tracks'); onNavigate?.(); }} className="inline-flex items-center gap-1 text-[0.625rem] text-slate-500 hover:text-slate-300">
           <ArrowLeftRight className="h-3 w-3" /> opis
         </button>
       </div>
@@ -46,7 +46,7 @@ function TrackSwitch({ onNavigate }) {
           return (
             <button key={o.id} type="button" aria-pressed={active}
               onClick={() => { setTrack(o.id); go(TRACKS[o.id].home); onNavigate?.(); }}
-              className={`flex items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-[11px] font-semibold leading-tight transition-colors ${
+              className={`flex items-center justify-center gap-1.5 rounded-lg px-2 py-2 text-[0.6875rem] font-semibold leading-tight transition-colors ${
                 active ? (o.id === 'secops' ? 'bg-rose-500/20 text-rose-200 ring-1 ring-rose-500/40' : 'bg-accent/20 text-accent-soft ring-1 ring-accent/40') : 'text-slate-400 hover:text-slate-200'
               }`}>
               <Icon className="h-3.5 w-3.5 shrink-0" /> {o.label}
@@ -66,14 +66,14 @@ function SecHUD() {
       <div className="flex items-center gap-3">
         <div className="relative grid h-11 w-11 shrink-0 place-items-center rounded-xl bg-rose-500/15 text-rose-300 ring-1 ring-rose-500/30">
           <ShieldHalf className="h-6 w-6" />
-          <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-gold text-[11px] font-extrabold text-ink-950 ring-2 ring-ink-850">{r.level}</span>
+          <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-gold text-[0.6875rem] font-extrabold text-ink-950 ring-2 ring-ink-850">{r.level}</span>
         </div>
         <div className="min-w-0 flex-1">
           <div className="truncate text-xs font-bold text-slate-100">{r.title}</div>
           <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-ink-700/70">
             <div className="h-full xp-bar transition-all" style={{ width: `${r.pct * 100}%` }} />
           </div>
-          <div className="mt-1 flex items-center gap-2 text-[11px] text-slate-400">
+          <div className="mt-1 flex items-center gap-2 text-[0.6875rem] text-slate-400">
             <span className="inline-flex items-center gap-0.5 text-gold"><Star className="h-3 w-3" /> {secTotalStars(state)}</span>
             <span className="inline-flex items-center gap-0.5 text-amber-400"><Flame className="h-3 w-3" /> {state.streak || 0}</span>
             <span className="inline-flex items-center gap-0.5"><Zap className="h-3 w-3" /> {state.xp}</span>
@@ -160,14 +160,14 @@ function GameHUD() {
       <div className="flex items-center gap-3">
         <div className="relative grid h-11 w-11 place-items-center rounded-xl bg-accent/15 text-accent-soft ring-1 ring-accent/30 shrink-0">
           <ShieldCheck className="h-6 w-6" />
-          <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-gold text-ink-950 text-[11px] font-extrabold ring-2 ring-ink-850">{info.level}</span>
+          <span className="absolute -bottom-1 -right-1 grid h-6 w-6 place-items-center rounded-full bg-gold text-ink-950 text-[0.6875rem] font-extrabold ring-2 ring-ink-850">{info.level}</span>
         </div>
         <div className="min-w-0 flex-1">
           <div className="text-xs font-bold text-slate-100 truncate">{info.title}</div>
           <div className="mt-1 h-1.5 w-full overflow-hidden rounded-full bg-ink-700/70">
             <div className="h-full xp-bar transition-all" style={{ width: `${info.pct * 100}%` }} />
           </div>
-          <div className="mt-1 flex items-center gap-2 text-[11px] text-slate-400">
+          <div className="mt-1 flex items-center gap-2 text-[0.6875rem] text-slate-400">
             <span className="inline-flex items-center gap-0.5 text-gold"><Star className="h-3 w-3" /> {stars}</span>
             <span className="inline-flex items-center gap-0.5 text-amber-400"><Flame className="h-3 w-3" /> {state.streak || 0}</span>
             <span className="inline-flex items-center gap-0.5"><Zap className="h-3 w-3" /> {state.xp}</span>
@@ -191,7 +191,7 @@ function FreeItemButton({ item, active, onClick }) {
       <Icon className={`mt-0.5 h-4 w-4 shrink-0 ${active ? 'text-accent-soft' : 'text-slate-400 group-hover:text-slate-200'}`} />
       <div className="min-w-0">
         <div className="text-sm font-medium leading-tight">{item.label}</div>
-        <div className="text-[10px] text-slate-500 leading-snug">{item.desc}</div>
+        <div className="text-[0.625rem] text-slate-500 leading-snug">{item.desc}</div>
       </div>
     </button>
   );
@@ -233,11 +233,11 @@ export default function Layout({ children }) {
           >
             <Icon className={`h-5 w-5 shrink-0 ${active ? 'text-rose-300' : 'text-slate-400 group-hover:text-slate-200'}`} />
             <span className="flex-1 text-sm font-semibold">{item.label}</span>
-            {item.view === 'sec-review' && secMissed > 0 && <span className="rounded-full bg-rose-500/20 px-2 text-[11px] font-bold text-rose-300">{secMissed}</span>}
+            {item.view === 'sec-review' && secMissed > 0 && <span className="rounded-full bg-rose-500/20 px-2 text-[0.6875rem] font-bold text-rose-300">{secMissed}</span>}
           </button>
         );
       })}
-      <p className="mt-4 px-3 text-[11px] leading-snug text-slate-500">
+      <p className="mt-4 px-3 text-[0.6875rem] leading-snug text-slate-500">
         Kolejki są ułożone według szansy, że temat padnie na rozmowie: od czerwonych (S) do zielonych (C).
       </p>
     </nav>
@@ -268,7 +268,7 @@ export default function Layout({ children }) {
         <button
           type="button"
           onClick={() => setFreeOpen((v) => !v)}
-          className="flex w-full items-center justify-between text-[11px] font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-300"
+          className="flex w-full items-center justify-between text-[0.6875rem] font-semibold uppercase tracking-wider text-slate-500 hover:text-slate-300"
         >
           <span>Tryb swobodny</span>
           <ChevronDown className={`h-3.5 w-3.5 transition-transform ${freeOpen ? '' : '-rotate-90'}`} />
@@ -281,7 +281,7 @@ export default function Layout({ children }) {
               <button
                 type="button"
                 onClick={() => toggleGroup(group.id)}
-                className="flex w-full items-center justify-between px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-slate-600 hover:text-slate-400"
+                className="flex w-full items-center justify-between px-3 py-1 text-[0.625rem] font-semibold uppercase tracking-wider text-slate-600 hover:text-slate-400"
               >
                 <span>{group.label}</span>
                 <ChevronDown className={`h-3 w-3 transition-transform ${openGroups[group.id] ? '' : '-rotate-90'}`} />
@@ -316,7 +316,7 @@ export default function Layout({ children }) {
           </div>
           <div className="leading-tight">
             <div className="text-sm font-bold text-slate-100">GRC Quiz</div>
-            <div className="text-[11px] text-slate-400">{trackShort}</div>
+            <div className="text-[0.6875rem] text-slate-400">{trackShort}</div>
           </div>
         </div>
         <div className="flex-1 overflow-y-auto px-3 py-4">

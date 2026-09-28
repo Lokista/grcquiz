@@ -218,7 +218,7 @@ function MissionBanner({ mission, hint }) {
     <div className="card card-pad bg-gold/5 border-gold/20 flex items-center gap-3">
       <div className="grid h-10 w-10 place-items-center rounded-lg bg-gold/15 text-gold shrink-0"><Target className="h-5 w-5" /></div>
       <div className="min-w-0">
-        <div className="text-[11px] uppercase tracking-wider text-gold">Misja</div>
+        <div className="text-[0.6875rem] uppercase tracking-wider text-gold">Misja</div>
         <div className="font-semibold text-slate-100 truncate">{mission.title}</div>
         <div className="text-xs text-slate-400">{hint}</div>
       </div>

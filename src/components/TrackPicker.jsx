@@ -1,7 +1,7 @@
 import { ShieldCheck, ShieldHalf, ChevronRight } from 'lucide-react';
 import { useTrack, TRACKS } from '../state/TrackContext.jsx';
 import { useNav } from '../state/NavContext.jsx';
-import { SEC_TOTAL } from '../data/secops/index.js';
+import { SEC_TOTAL, SEC_STAGES } from '../data/secops/index.js';
 
 const CARDS = [
   {
@@ -16,7 +16,7 @@ const CARDS = [
     icon: ShieldHalf,
     ring: 'hover:border-rose-400 ring-rose-500/30',
     iconTone: 'bg-rose-500/15 text-rose-300',
-    points: [`13 kolejek, ${SEC_TOTAL} zadań: tylko klikanie`, 'Giga Quiz bez końca, egzamin na czas, powtórka błędów', 'Incydenty, EDR, podatności, logi, KSC/NIS2, SZBI, OWASP'],
+    points: [`${SEC_STAGES.length} kolejek, ${SEC_TOTAL} zadań: tylko klikanie`, 'Giga Quiz bez końca, egzamin na czas, powtórka błędów', 'Incydenty, EDR, podatności, logi, KSC/NIS2, SZBI, OWASP'],
   },
 ];
 
@@ -50,7 +50,7 @@ export default function TrackPicker({ embedded = false }) {
                   <div className={`grid h-11 w-11 place-items-center rounded-xl ${c.iconTone}`}><Icon className="h-6 w-6" /></div>
                   <div>
                     <div className="text-lg font-bold text-slate-100">{t.label}</div>
-                    {active && <div className="text-[11px] font-semibold uppercase tracking-wider text-emerald-400">Aktualna ścieżka</div>}
+                    {active && <div className="text-[0.6875rem] font-semibold uppercase tracking-wider text-emerald-400">Aktualna ścieżka</div>}
                   </div>
                 </div>
                 <p className="text-sm leading-relaxed text-slate-300">{t.desc}</p>

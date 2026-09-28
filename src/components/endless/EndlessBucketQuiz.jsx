@@ -44,7 +44,7 @@ export default function EndlessBucketQuiz({ question, revealed, onComplete }) {
                 : 'border-ink-700/50 bg-ink-900/30'
             }`}
           >
-            <div className="text-[11px] font-bold uppercase tracking-wide text-accent-soft mb-2">{name}</div>
+            <div className="text-[0.6875rem] font-bold uppercase tracking-wide text-accent-soft mb-2">{name}</div>
             <div className="space-y-1">
               {question.items.map((it, ii) => {
                 if (assignments[ii] !== bi) return null;
@@ -53,7 +53,7 @@ export default function EndlessBucketQuiz({ question, revealed, onComplete }) {
                 return (
                   <div
                     key={ii}
-                    className={`text-[11px] rounded px-2 py-1 ${
+                    className={`text-[0.6875rem] rounded px-2 py-1 ${
                       ok ? 'bg-emerald-500/20 text-emerald-300' : bad ? 'bg-amber-500/15 text-amber-200' : 'bg-ink-800 text-slate-300'
                     }`}
                   >
@@ -67,7 +67,7 @@ export default function EndlessBucketQuiz({ question, revealed, onComplete }) {
       </div>
 
       <div className="space-y-2">
-        <div className="text-[11px] text-slate-500 uppercase tracking-wide">Elementy do segregacji</div>
+        <div className="text-[0.6875rem] text-slate-500 uppercase tracking-wide">Elementy do segregacji</div>
         {question.items.map((it, ii) => {
           const assigned = assignments[ii];
           const isSel = selected === ii;
@@ -88,7 +88,7 @@ export default function EndlessBucketQuiz({ question, revealed, onComplete }) {
             >
               <span className="text-slate-100 flex-1">{it.text}</span>
               {assigned != null && !revealed && (
-                <span className="text-[10px] text-accent-soft">{question.buckets[assigned]}</span>
+                <span className="text-[0.625rem] text-accent-soft">{question.buckets[assigned]}</span>
               )}
               {revealed && ok && <CheckCircle2 className="h-4 w-4 text-emerald-400" />}
             </button>
