@@ -14,7 +14,7 @@ export default defineConfig({
       manifest: {
         name: 'GRC Quiz — Auditor Quest',
         short_name: 'GRC Quiz',
-        description: 'Gra do nauki IT Audytu, GRC i rozmowy rekrutacyjnej',
+        description: 'Gra do nauki: IT Audyt i GRC oraz Bezpieczeństwo IT w sektorze publicznym',
         theme_color: '#0c1017',
         background_color: '#0c1017',
         display: 'standalone',

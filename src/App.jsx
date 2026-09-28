@@ -7,6 +7,9 @@ import QuestMap from './components/QuestMap.jsx';
 import ChapterView from './components/ChapterView.jsx';
 import DailyChallenge from './components/DailyChallenge.jsx';
 import Achievements from './components/Achievements.jsx';
+import TrackPicker from './components/TrackPicker.jsx';
+import { TrackProvider, useTrack } from './state/TrackContext.jsx';
+import { SecopsProvider } from './state/SecopsContext.jsx';
 
 /** Core game views stay eager; free-mode / heavy drills lazy for smaller initial JS. */
 const LearnModule = lazy(() => import('./modules/LearnModule.jsx'));
@@ -37,6 +40,8 @@ const FindingTriageModule = lazy(() => import('./modules/FindingTriageModule.jsx
 const PolicyPracticeModule = lazy(() => import('./modules/PolicyPracticeModule.jsx'));
 const RiskRegisterModule = lazy(() => import('./modules/RiskRegisterModule.jsx'));
 const SoaApplicabilityModule = lazy(() => import('./modules/SoaApplicabilityModule.jsx'));
+const SecopsHome = lazy(() => import('./modules/secops/SecopsHome.jsx'));
+const SecopsPlay = lazy(() => import('./modules/secops/SecopsPlay.jsx'));
 
 function RouteFallback() {
   return (
@@ -49,7 +54,8 @@ function RouteFallback() {
 }
 
 function Router() {
-  const { view } = useNav();
+  const { view, params } = useNav();
+  const { track } = useTrack();
   let page;
   switch (view) {
     case 'chapter': page = <ChapterView />; break;
@@ -83,25 +89,42 @@ function Router() {
     case 'policy': page = <PolicyPracticeModule />; break;
     case 'risk': page = <RiskRegisterModule />; break;
     case 'soa': page = <SoaApplicabilityModule />; break;
+    case 'tracks': page = <TrackPicker embedded />; break;
+    case 'sec': page = <SecopsHome />; break;
+    case 'sec-stage': case 'sec-quick': case 'sec-giga': case 'sec-exam': case 'sec-review':
+      page = <SecopsPlay key={view + JSON.stringify(params)} mode={view === 'sec-stage' ? 'stage' : view.slice(4)} stageId={params.stageId} />;
+      break;
     case 'quest':
-    default: page = <QuestMap />; break;
+    default: page = track === 'secops' ? <SecopsHome /> : <QuestMap />; break;
   }
 
-  const eager = view === 'quest' || view === 'chapter' || view === 'daily' || view === 'achievements' || !view;
+  const eager = view === 'chapter' || view === 'daily' || view === 'achievements' || view === 'tracks' || ((view === 'quest' || !view) && track !== 'secops');
   if (eager) return page;
   return <Suspense fallback={<RouteFallback />}>{page}</Suspense>;
 }
 
+function Shell() {
+  const { track } = useTrack();
+  if (!track) return <TrackPicker />;
+  return (
+    <Layout>
+      <Router />
+    </Layout>
+  );
+}
+
 export default function App() {
   return (
-    <ProgressProvider>
-      <NavProvider>
-        <MissionProvider>
-          <Layout>
-            <Router />
-          </Layout>
-        </MissionProvider>
-      </NavProvider>
-    </ProgressProvider>
+    <TrackProvider>
+      <ProgressProvider>
+        <SecopsProvider>
+          <NavProvider>
+            <MissionProvider>
+              <Shell />
+            </MissionProvider>
+          </NavProvider>
+        </SecopsProvider>
+      </ProgressProvider>
+    </TrackProvider>
   );
 }

@@ -1,4 +1,32 @@
-# Auditor Quest — gra do nauki IT Audytu
+# GRC Quiz — gra do nauki IT Audytu i bezpieczeństwa IT
+
+**Darmowa, open-source'owa gra webowa po polsku.** Dwie osobne ścieżki do wyboru przy starcie:
+
+| Ścieżka | Dla kogo | Co w środku |
+|---|---|---|
+| **IT Audyt i GRC** | Junior IT Auditor / GRC Analyst (styl Big4) | mapa misji, lekcje, case study, Mock 45 min, Exam mode, Endless Quiz, drille fieldwork |
+| **Bezpieczeństwo IT — sektor publiczny** | specjalista ds. bezpieczeństwa IT w jednostce publicznej | 13 kolejek (350 zadań), Giga Quiz, egzamin na czas, powtórka błędów |
+
+Każda ścieżka ma własne menu i własny postęp. Ścieżkę zmieniasz w menu w każdej chwili.
+
+[**Zagraj w przeglądarce**](https://lokista.github.io/grcquiz/) · [**Pobierz na telefon**](./POBIERZ.md) · licencja [MIT](./LICENSE)
+
+## Ścieżka „Bezpieczeństwo IT — sektor publiczny”
+
+Tylko klikanie, bez pisania. Kolejki są ułożone według tego, jak prawdopodobne jest, że temat padnie
+na rozmowie (S → C): incydenty, KSC/NIS2 i CSIRT, podatności, EDR, rozmowa (boss), logi i Event ID,
+ISO 27001 i SZBI, ryzyko, polityki i wdrożenia, OWASP i pentesty, architektura i hardening,
+szkolenia i dostawcy, MITRE ATT&CK i informatyka śledcza.
+
+- **Typy zadań:** ABCD, prawda/fałsz, dopasuj pary, ułóż kolejność, dokończ zdanie, najlepsza odpowiedź.
+- **Tryby:** kolejki z gwiazdkami, Szybka zmiana (10 zadań), **Giga Quiz** (bez końca, 3 życia, mnożnik za serię, rekord),
+  egzamin na czas (30 pytań, 20 min, wyjaśnienia na końcu), powtórka błędów.
+- **Dane:** `src/data/secops/*.js` — jeden plik na kolejkę. Po zmianach uruchom `npm run validate:secops`
+  (sprawdza format, duplikaty i czy poprawna odpowiedź nie jest podejrzanie często najdłuższa).
+- Stan prawny: KSC po nowelizacji wdrażającej NIS2 (od 3.04.2026). Treść ma charakter edukacyjny, nie jest poradą prawną.
+
+## Ścieżka „IT Audyt i GRC”
+
 
 **Edukacyjna gra webowa** do nauki IT Audytu, GRC i rozmowy rekrutacyjnej na stanowisko
 **Junior IT Auditor** (style Big4 / EY GDS). Gra uczy **praktycznego myślenia audytora**,
@@ -146,3 +174,16 @@ Działa offline. Po rundzie gra pokazuje idealną odpowiedź słowną (do nauki 
 - „Tryb egzaminu” z limitem czasu i losowanymi misjami z wielu światów.
 - Więcej case studies, pytań i scenariuszy (struktura gotowa — dopisuj obiekty).
 - Licznik żyć/energii w wyzwaniu dnia dla dodatkowego napięcia.
+
+## Współtworzenie
+
+Pull requesty mile widziane: nowe pytania, poprawki merytoryczne, nowe tryby.
+Przed PR: `npm run lint`, `npm run build` i (dla ścieżki bezpieczeństwa) `npm run validate:secops`.
+
+## Prywatność
+
+Gra nie ma backendu i nie wysyła żadnych danych. Postęp zapisuje się tylko w `localStorage` Twojej przeglądarki.
+
+## Licencja
+
+[MIT](./LICENSE) — możesz używać, kopiować i zmieniać, także komercyjnie, z zachowaniem informacji o licencji.
