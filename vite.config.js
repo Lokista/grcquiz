@@ -3,12 +3,15 @@ import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
 const forPages = process.env.GITHUB_PAGES === 'true';
+// Build do aplikacji Android (Capacitor): bez service workera, ścieżki od korzenia.
+const forApp = process.env.CAPACITOR === 'true';
 
 export default defineConfig({
   base: forPages ? '/grcquiz/' : '/',
   plugins: [
     react(),
     VitePWA({
+      disable: forApp,
       registerType: 'autoUpdate',
       includeAssets: ['shield.svg'],
       manifest: {

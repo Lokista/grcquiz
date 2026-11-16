@@ -12,15 +12,20 @@
     "build:pages": "cross-env GITHUB_PAGES=true vite build",
     "zip": "node scripts/zip-dist.mjs",
     "package": "npm run build:pages && npm run zip",
-    "validate:secops": "node scripts/validate-secops.mjs"
+    "validate:secops": "node scripts/validate-secops.mjs",
+    "build:app": "cross-env CAPACITOR=true vite build",
+    "apk": "npm run build:app && npx cap sync android && cd android && gradlew assembleDebug"
   },
   "dependencies": {
+    "@capacitor/core": "^8.6.2",
     "canvas-confetti": "^1.9.4",
     "lucide-react": "^0.475.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/cli": "^8.6.2",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@vitejs/plugin-react": "^4.3.4",

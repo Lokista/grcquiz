@@ -1,5 +1,13 @@
 # Pobieranie na telefon
 
+## Android — aplikacja (APK)
+
+1. Na telefonie otwórz: **https://github.com/Lokista/grcquiz/releases/latest/download/grcquiz.apk**
+2. Otwórz pobrany plik i zezwól przeglądarce na instalację aplikacji z tego źródła.
+3. Gotowe — ikona **GRC Quiz** pojawi się na liście aplikacji. Działa offline.
+
+Nowa wersja = pobierz i zainstaluj APK jeszcze raz (postęp zostaje).
+
 ## Najprościej (zalecane)
 
 1. Otwórz w telefonie (Chrome / Safari):  

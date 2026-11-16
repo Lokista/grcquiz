@@ -40,6 +40,7 @@ const FindingTriageModule = lazy(() => import('./modules/FindingTriageModule.jsx
 const PolicyPracticeModule = lazy(() => import('./modules/PolicyPracticeModule.jsx'));
 const RiskRegisterModule = lazy(() => import('./modules/RiskRegisterModule.jsx'));
 const SoaApplicabilityModule = lazy(() => import('./modules/SoaApplicabilityModule.jsx'));
+const SkillsInterviewModule = lazy(() => import('./modules/SkillsInterviewModule.jsx'));
 const SecopsHome = lazy(() => import('./modules/secops/SecopsHome.jsx'));
 const SecopsPlay = lazy(() => import('./modules/secops/SecopsPlay.jsx'));
 
@@ -89,6 +90,7 @@ function Router() {
     case 'policy': page = <PolicyPracticeModule />; break;
     case 'risk': page = <RiskRegisterModule />; break;
     case 'soa': page = <SoaApplicabilityModule />; break;
+    case 'cvskills': page = <SkillsInterviewModule />; break;
     case 'tracks': page = <TrackPicker embedded />; break;
     case 'sec': page = <SecopsHome />; break;
     case 'sec-stage': case 'sec-quick': case 'sec-giga': case 'sec-exam': case 'sec-review':

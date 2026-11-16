@@ -15,5 +15,5 @@ module.exports = {
     'react/prop-types': 'off',
     'no-unused-vars': ['warn', { argsIgnorePattern: '^_', varsIgnorePattern: '^_' }],
   },
-  ignorePatterns: ['dist', 'node_modules'],
+  ignorePatterns: ['dist', 'node_modules', 'android'],
 };

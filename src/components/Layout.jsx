@@ -6,7 +6,7 @@ import {
   MessageCircle, Library, Gauge, ScrollText, Split, ScanSearch, GitBranchPlus,
   Tags, MessageSquareQuote, Dices, ListOrdered, CalendarCheck2, Inbox, Scale,
   ShieldAlert, FileCheck2, ShieldHalf, Timer, ArrowLeftRight,
-  Infinity as InfinityIcon,
+  Infinity as InfinityIcon, UserCheck,
 } from 'lucide-react';
 import { useNav } from '../state/NavContext.jsx';
 import { useProgress } from '../state/ProgressContext.jsx';
@@ -106,6 +106,7 @@ const FREE_GROUPS = [
     id: 'rozmowa',
     label: 'Rozmowa',
     items: [
+      { view: 'cvskills', label: 'Pytania z CV', icon: UserCheck, desc: 'Umiejętności + wyjaśnienia' },
       { view: 'weak', label: 'Weak-topic trainer', icon: Flame, desc: 'Słabe tematy ze stats' },
       { view: 'interview', label: 'Rozmowa rekrutacyjna', icon: MessagesSquare, desc: 'Karty odpowiedzi' },
       { view: 'prowords', label: 'Pro-słowa', icon: MessageCircle, desc: 'Zdania na rozmowę' },

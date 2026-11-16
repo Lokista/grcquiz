@@ -32,14 +32,31 @@ jobs:
 
       - run: npm run zip
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: grcquiz-web
-          path: release/grcquiz-web.zip
-
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
+      # Aplikacja Android (APK) — osobny build bez service workera, po spakowaniu Pages
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Build APK
+        run: |
+          npm run build:app
+          npx cap sync android
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          cp app/build/outputs/apk/debug/app-debug.apk ../release/grcquiz.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: grcquiz-web
+          path: |
+            release/grcquiz-web.zip
+            release/grcquiz.apk
 
   deploy:
     needs: build
@@ -65,9 +82,12 @@ jobs:
           tag_name: mobile-${{ github.run_number }}
           name: GRC Quiz — build ${{ github.run_number }} (telefon)
           body: |
-            Paczka do pobrania na telefon (offline) + instrukcja w ZIP.
+            **Android:** pobierz `grcquiz.apk` i zainstaluj (zezwól na instalację z tego źródła).
+            **iPhone / każdy telefon:** https://lokista.github.io/grcquiz/ → Dodaj do ekranu głównego.
 
-            **Lepsza opcja:** https://lokista.github.io/grcquiz/ → Dodaj do ekranu głównego.
-          files: release/grcquiz-web.zip
+            `grcquiz-web.zip` — wersja offline do przeglądarki.
+          files: |
+            release/grcquiz-web.zip
+            release/grcquiz.apk
           make_latest: true
           generate_release_notes: false
